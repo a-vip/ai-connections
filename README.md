@@ -12,22 +12,37 @@
 
 ## 🎯 Overview
 
-**AI Connections** is an intellectual twist on the popular NYT Connections game mechanic, specifically designed for AI researchers, legal scholars, tech policymakers, and defense analysts.
+**AI & Multi-Topic Connections** is an intellectual twist on the popular NYT Connections game mechanic, thoughtfully designed for **both the general public and domain specialists**. 
 
-Players are presented with 16 terms and must identify the 4 underlying groups of 4 without making 4 mistakes. Each puzzle balances surface-level semantic red herrings against rigorous regulatory, technical, and lateral taxonomies.
+Whether you are a casual player looking for fun everyday trivia, a student, a civil society activist, or an international AI policy lawyer, the game offers tailored game modes across **8 distinct topics** and **3 audience tiers**:
+
+- **🧠 General Knowledge & Everyday Life:** Kitchen essentials, voice assistants, smart devices, everyday food, board games (accessible to everyone without university education).
+- **🎬 Culture & Media:** Movies, music formats, superhero teams, streaming platforms, pop culture.
+- **🔬 Science & Nature:** Animals, big cats, planets, renewable energy, cloud types, physics.
+- **📜 History & Heritage:** Ancient civilizations, epochal inventions, world wonders, historical peace conferences.
+- **🏛️ Politics & Society:** Fundamental democratic rights, voting, elections, civic advocacy, branches of government.
+- **⚖️ Law & Justice:** Courtroom basics, evidence, civil liberties, contract essentials, Latin maxims, landmark cases.
+- **🌍 International Relations:** UN diplomacy, world capitals, passports, treaties, sanctions, P5 members.
+- **🤖 AI & Technology:** Everyday social media formats and privacy tools up to the EU AI Act, compute hardware, and autonomous weapons (LAWS).
+- **🔀 Custom Mix & Match:** An interactive topic checklist allowing players to select any combination of topics to dynamically synthesize infinite 16-word puzzles on the fly!
 
 ---
 
 ## ✨ Key Features
 
-- **🏛️ Deep Pedagogical Intelligence Dossiers:** Solving any category unlocks an in-depth intelligence briefing detailing the exact statute (e.g. *EU AI Act Article 5*, *US Executive Order 14110*, *Geneva Conventions Common Article 36*), technological substrate, and geopolitical impact.
+- **🌐 Multi-Topic Selector & Dynamic Mix Generator:** Quick one-click topic pill navigation + a comprehensive modal with checkboxes to mix and blend any subject.
+- **👥 3 Audience Tiers:** 
+  - `Everyone / Casual` (zero jargon, highly intuitive, fun for all ages)
+  - `Civil Society` (civic rights, democratic institutions, international history)
+  - `Specialist` (statutory citations, treaty frameworks, foundation model architectures)
+- **🏛️ Deep Pedagogical Intelligence Dossiers:** Solving any category unlocks an in-depth intelligence briefing detailing the exact statute, history, or scientific basis.
 - **📅 Daily Challenge Mode:** Synchronized epoch-based daily puzzle rotation with persistent streak tracking, win-rate percentage, and guess distribution metrics.
-- **📚 Archive Vault (20+ Master Puzzles):** Instant access to hand-crafted challenges ranging across *Autonomous Weapons (LAWS)*, *Copyright & Courts*, *Silicon Sovereignty & Compute*, *Frontier Alignment*, *Multimodal Architectures*, and *Linguistic Lateral Wordplay*.
+- **📚 Archive Vault (Curated Catalogue + Infinite Generator):** Browse puzzles by topic and audience, or generate custom mixes.
 - **✏️ Community & Custom Puzzle Creator:** Built-in puzzle designer that validates 16 unique items and generates a compressed, base64 shareable URL hash for viral play without any backend server.
 - **🔊 Web Audio API Synthesizer:** Polyphonic haptic audio synthesized directly in code (clicks, error buzzes, chord progressions, victory fanfares) with **0 bytes of external audio asset bloat**.
 - **🎨 Glassmorphic Aesthetic & Dual Theme:** Seamless dark (`#0b0f19`) and light modes styled to match the editorial luxury standard of [aviperera.com](https://aviperera.com).
 - **📐 Iframe Auto-Resizer:** Native `postMessage` protocol allowing parents (WordPress / Kadence) to auto-adjust iframe height dynamically with zero scrollbars.
-- **⚡ Ultra-Lightweight Footprint:** The entire project totals **~110 KB** across all assets, utilizing **zero `node_modules`** and zero laptop storage bloat.
+- **⚡ Ultra-Lightweight Footprint:** The entire project totals **~140 KB** across all assets, utilizing **zero `node_modules`** and zero laptop storage bloat.
 
 ---
 

@@ -34,7 +34,10 @@
         </div>
 
         <div class="header-actions">
-          <button id="btn-archive" class="icon-btn" title="Puzzle Archive & Daily Selector" aria-label="Open puzzle archive">
+          <button id="btn-mix-modal" class="icon-btn" title="Mix & Match Topics" aria-label="Open Mix & Match topics">
+            🔀
+          </button>
+          <button id="btn-archive" class="icon-btn" title="Puzzle Archive & Topic Selector" aria-label="Open puzzle archive">
             📚
           </button>
           <button id="btn-custom" class="icon-btn" title="Create Custom Puzzle" aria-label="Create custom puzzle">
@@ -55,13 +58,31 @@
         </div>
       </div>
 
+      <!-- Horizontal Topic Selector Bar -->
+      <nav id="topic-bar" class="topic-bar" aria-label="Topic Filter">
+        <button class="topic-pill active" data-topic="all">🌐 All</button>
+        <button class="topic-pill" data-topic="general">🧠 General (Everyone)</button>
+        <button class="topic-pill" data-topic="culture">🎬 Culture</button>
+        <button class="topic-pill" data-topic="science">🔬 Science</button>
+        <button class="topic-pill" data-topic="history">📜 History</button>
+        <button class="topic-pill" data-topic="politics">🏛️ Politics</button>
+        <button class="topic-pill" data-topic="law">⚖️ Law</button>
+        <button class="topic-pill" data-topic="ir">🌍 World / IR</button>
+        <button class="topic-pill" data-topic="ai">🤖 AI &amp; Tech</button>
+        <button id="btn-pill-mix" class="topic-pill special-mix" data-topic="mix">🔀 Mix Topics</button>
+      </nav>
+
       <div class="puzzle-meta-bar">
-        <span id="puzzle-title-display" class="puzzle-badge">Puzzle #1</span>
-        <span id="puzzle-difficulty-display" class="difficulty-pill Intermediate">Intermediate</span>
+        <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+          <span id="puzzle-title-display" class="puzzle-badge">Puzzle #1</span>
+          <span id="puzzle-topic-display" class="topic-pill" style="padding:2px 7px; font-size:0.72rem; pointer-events:none;">🤖 AI</span>
+          <span id="puzzle-audience-display" class="audience-pill Everyone">Everyone</span>
+          <span id="puzzle-difficulty-display" class="difficulty-pill Intermediate">Intermediate</span>
+        </div>
         <span id="puzzle-mode-tag" style="font-size: 0.75rem; color: var(--text-muted);">Daily Challenge</span>
       </div>
 
-      <p class="instruction-text">Find 4 groups of 4 items with a common AI, policy, or legal connection.</p>
+      <p class="instruction-text">Find 4 groups of 4 items with a common link. Tap solved cards for Dossiers!</p>
     </header>
 
     <!-- Solved Categories Stack -->
@@ -169,8 +190,110 @@
         <h2 id="archive-title" class="modal-title">📚 Puzzle Archive Vault</h2>
         <button class="close-btn" data-close="modal-archive" aria-label="Close modal">&times;</button>
       </div>
-      <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:10px;">Select any puzzle from our curated collection across AI Law, Policy, LAWS, and Frontier Systems.</p>
+      <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:8px;">
+        Explore puzzles across all topics and audience tiers (from casual everyday to advanced specialist).
+      </p>
+
+      <!-- Archive Filter Bar -->
+      <div style="display:flex; flex-direction:column; gap:6px; margin-bottom:12px;">
+        <div id="archive-topic-filter" class="topic-bar">
+          <button class="topic-pill active" data-filter-topic="all">All</button>
+          <button class="topic-pill" data-filter-topic="general">General</button>
+          <button class="topic-pill" data-filter-topic="culture">Culture</button>
+          <button class="topic-pill" data-filter-topic="science">Science</button>
+          <button class="topic-pill" data-filter-topic="history">History</button>
+          <button class="topic-pill" data-filter-topic="politics">Politics</button>
+          <button class="topic-pill" data-filter-topic="law">Law</button>
+          <button class="topic-pill" data-filter-topic="ir">IR</button>
+          <button class="topic-pill" data-filter-topic="ai">AI</button>
+        </div>
+      </div>
+
       <div id="archive-list" class="archive-grid"></div>
+    </div>
+  </div>
+
+  <!-- MODAL: Mix & Match Topics -->
+  <div id="modal-mix" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="mix-title">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="mix-title" class="modal-title">🔀 Mix &amp; Match Topics</h2>
+        <button class="close-btn" data-close="modal-mix" aria-label="Close modal">&times;</button>
+      </div>
+      <p style="font-size:0.85rem; color:var(--text-secondary);">
+        Select which topics you want included in your custom puzzle blend. The game engine will assemble a unique 16-item game spanning your chosen subjects!
+      </p>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-top:4px;">
+        <span style="font-size:0.75rem; text-transform:uppercase; font-weight:700; color:var(--accent-cyan);">Active Topics</span>
+        <div style="display:flex; gap:8px;">
+          <button id="btn-select-all-topics" class="game-btn subtle" style="padding:3px 8px; font-size:0.75rem;">Select All</button>
+          <button id="btn-clear-all-topics" class="game-btn subtle" style="padding:3px 8px; font-size:0.75rem;">Clear All</button>
+        </div>
+      </div>
+
+      <div class="topic-checkbox-grid">
+        <label class="topic-checkbox-card">
+          <input type="checkbox" name="topic-choice" value="general" checked>
+          <div class="topic-info">
+            <span class="topic-name">🧠 General Knowledge</span>
+            <span class="topic-sub">Accessible to everyone, everyday life</span>
+          </div>
+        </label>
+        <label class="topic-checkbox-card">
+          <input type="checkbox" name="topic-choice" value="culture" checked>
+          <div class="topic-info">
+            <span class="topic-name">🎬 Culture &amp; Media</span>
+            <span class="topic-sub">Movies, music, superheroes &amp; pop culture</span>
+          </div>
+        </label>
+        <label class="topic-checkbox-card">
+          <input type="checkbox" name="topic-choice" value="science" checked>
+          <div class="topic-info">
+            <span class="topic-name">🔬 Science &amp; Nature</span>
+            <span class="topic-sub">Animals, space, planets &amp; biology</span>
+          </div>
+        </label>
+        <label class="topic-checkbox-card">
+          <input type="checkbox" name="topic-choice" value="history" checked>
+          <div class="topic-info">
+            <span class="topic-name">📜 History</span>
+            <span class="topic-sub">Ancient wonders, inventions &amp; world events</span>
+          </div>
+        </label>
+        <label class="topic-checkbox-card">
+          <input type="checkbox" name="topic-choice" value="politics" checked>
+          <div class="topic-info">
+            <span class="topic-name">🏛️ Politics &amp; Society</span>
+            <span class="topic-sub">Democracy, civic rights &amp; elections</span>
+          </div>
+        </label>
+        <label class="topic-checkbox-card">
+          <input type="checkbox" name="topic-choice" value="law" checked>
+          <div class="topic-info">
+            <span class="topic-name">⚖️ Law &amp; Justice</span>
+            <span class="topic-sub">Courtroom basics, rights &amp; landmark cases</span>
+          </div>
+        </label>
+        <label class="topic-checkbox-card">
+          <input type="checkbox" name="topic-choice" value="ir" checked>
+          <div class="topic-info">
+            <span class="topic-name">🌍 International Relations</span>
+            <span class="topic-sub">Diplomacy, world capitals &amp; treaties</span>
+          </div>
+        </label>
+        <label class="topic-checkbox-card">
+          <input type="checkbox" name="topic-choice" value="ai" checked>
+          <div class="topic-info">
+            <span class="topic-name">🤖 AI &amp; Technology</span>
+            <span class="topic-sub">Smartphones, frontier models &amp; policy</span>
+          </div>
+        </label>
+      </div>
+
+      <button id="btn-generate-mix" class="game-btn primary" style="width:100%; margin-top:8px;">
+        🎲 Generate Custom Mixed Game
+      </button>
     </div>
   </div>
 

@@ -10,7 +10,8 @@
  * 🟪 Purple: Tricky / Lateral, Linguistic, or Meta-Connections
  */
 
-export const PUZZLES = [
+// Universal Module Definition for zero-friction local execution (file://) and bundlers/servers
+const PUZZLES = [
   {
     id: 1,
     title: "The Brussels Effect & Beyond",
@@ -972,3 +973,10 @@ export const PUZZLES = [
     ]
   }
 ];
+
+if (typeof window !== 'undefined') {
+  window.AI_PUZZLES = PUZZLES;
+}
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { PUZZLES };
+}

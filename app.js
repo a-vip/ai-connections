@@ -4,7 +4,8 @@
  * High-performance, zero-dependency, modular client-side engine with Web Audio API synthesis
  */
 
-import { PUZZLES } from './puzzles.js';
+// Load puzzles from global window or fallback
+const PUZZLES = (typeof window !== 'undefined' && window.AI_PUZZLES) ? window.AI_PUZZLES : [];
 
 // --- Web Audio Synthesizer (Zero External Audio Assets) ---
 class SoundEngine {

@@ -3160,6 +3160,7 @@ class ConnectionsGame {
       sharePreview: document.getElementById('share-preview'),
       archiveList: document.getElementById('archive-list'),
       // 3D Engine Elements
+      container3D: document.getElementById('container-3d'),
       tab2D: document.getElementById('tab-mode-2d'),
       tab3D: document.getElementById('tab-mode-3d'),
       viewport3D: document.getElementById('viewport-3d'),
@@ -3506,8 +3507,8 @@ class ConnectionsGame {
       this.updateControls();
       this.notifyParentHeight();
 
-      // Check win condition
-      if (this.solvedCategories.length === 4) {
+      // Check win condition (handles both 4-category 16-tile and 8-category 32-tile modes)
+      if (this.solvedCategories.length === this.currentPuzzle.categories.length) {
         this.handleGameWin();
       }
     } else {
@@ -3528,8 +3529,8 @@ class ConnectionsGame {
       this.mistakesRemaining--;
       this.renderMistakes();
 
-      // Animate shake on selected tiles
-      const tileDoms = this.dom.grid.querySelectorAll('.tile.selected');
+      // Animate shake on selected tiles in both 2D and 3D
+      const tileDoms = document.querySelectorAll('.tile.selected, .tile-3d.selected');
       tileDoms.forEach(t => t.classList.add('shake'));
       setTimeout(() => tileDoms.forEach(t => t.classList.remove('shake')), 400);
 
@@ -3964,15 +3965,22 @@ class ConnectionsGame {
 
     if (this.is3D) {
       if (this.dom.grid) this.dom.grid.classList.add('hidden');
-      if (this.dom.viewport3D) this.dom.viewport3D.classList.remove('hidden');
+      if (this.dom.container3D) this.dom.container3D.classList.remove('hidden');
       this.render3DStage();
       this.update3DTransform();
       this.sound.playCorrect();
       this.showToast('Entered 3D Holographic Mode 🔮');
+      if (this.autoSpin3D && !this.spinAnimFrame) {
+        this.startSpinLoop();
+      }
     } else {
-      if (this.dom.viewport3D) this.dom.viewport3D.classList.add('hidden');
+      if (this.dom.container3D) this.dom.container3D.classList.add('hidden');
       if (this.dom.grid) this.dom.grid.classList.remove('hidden');
-      this.renderGrid(); if (this.is3D) this.render3DStage();
+      if (this.spinAnimFrame) {
+        cancelAnimationFrame(this.spinAnimFrame);
+        this.spinAnimFrame = null;
+      }
+      this.renderGrid();
       this.sound.playTap();
       this.showToast('Returned to 2D Classic Mode 🎯');
     }
@@ -3986,6 +3994,7 @@ class ConnectionsGame {
     });
 
     if (dim === '32') {
+      this.lastStandardPuzzleIndex = this.puzzleIndex;
       const puzzle32 = this.synthesize32TilePuzzle();
       this.currentPuzzle = puzzle32;
       this.isCustom = true;
@@ -3996,7 +4005,7 @@ class ConnectionsGame {
       if (this.currentPuzzle && this.currentPuzzle.categories.length > 4) {
         this.maxMistakes = 4;
         this.isCustom = false;
-        this.startPuzzle(0);
+        this.startPuzzle(this.lastStandardPuzzleIndex || 0);
       }
       this.render3DStage();
       this.showToast(`Switched to 3D ${dim.toUpperCase()} view`);
@@ -4093,7 +4102,7 @@ class ConnectionsGame {
       this.dom.stage3D.appendChild(layerB);
     } else if (this.dim3D === 'cylinder') {
       // 3D Orbital Cylindrical Ring
-      const radius = 260;
+      const radius = 180 + (this.depth3D * 0.8);
       const total = tiles.length;
       const angleStep = 360 / Math.max(total, 1);
 
@@ -4110,7 +4119,7 @@ class ConnectionsGame {
       });
     } else if (this.dim3D === 'cube') {
       // 3D Cube (4 faces around Y)
-      const sideDistance = 160;
+      const sideDistance = 100 + (this.depth3D * 0.6);
       const faces = [[], [], [], []]; // Front (0), Right (90), Back (180), Left (270)
       tiles.forEach((t, i) => faces[i % 4].push(t));
 
@@ -4135,7 +4144,7 @@ class ConnectionsGame {
       // Default 4x4 Planar Deck with 3D elevation
       const layer = document.createElement('div');
       layer.className = 'layer-3d grid-4x4';
-      layer.style.transform = 'translateZ(0px)';
+      layer.style.transform = `translateZ(${this.depth3D * 0.15}px)`;
 
       tiles.forEach(tileObj => {
         layer.appendChild(this.create3DTileElement(tileObj));
@@ -4167,10 +4176,45 @@ class ConnectionsGame {
     tile.addEventListener('click', (e) => {
       e.stopPropagation();
       this.handleTileClick(tileObj.text, tile);
-      if (this.is3D) this.render3DStage();
+    });
+
+    tile.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        this.handleTileClick(tileObj.text, tile);
+      }
     });
 
     return tile;
+  }
+
+  setCameraPreset(rotX, rotY, zoom = 0) {
+    if (!this.dom.stage3D) return;
+    this.dom.stage3D.style.transition = 'transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1)';
+    this.rot3D.x = rotX;
+    this.rot3D.y = rotY;
+    this.rot3D.zoom = zoom;
+    this.update3DTransform();
+    setTimeout(() => {
+      if (this.dom.stage3D) this.dom.stage3D.style.transition = 'transform 0.05s linear';
+    }, 360);
+    this.sound.playTap();
+  }
+
+  startSpinLoop() {
+    if (this.spinAnimFrame) cancelAnimationFrame(this.spinAnimFrame);
+    const spinLoop = () => {
+      if (!this.autoSpin3D || !this.is3D) {
+        this.spinAnimFrame = null;
+        return;
+      }
+      if (!this.isDragging3D) {
+        this.rot3D.y = (this.rot3D.y + 0.3) % 360;
+        this.update3DTransform();
+      }
+      this.spinAnimFrame = requestAnimationFrame(spinLoop);
+    };
+    this.spinAnimFrame = requestAnimationFrame(spinLoop);
   }
 
   update3DTransform() {
@@ -4184,9 +4228,13 @@ class ConnectionsGame {
     const vp = this.dom.viewport3D;
 
     vp.addEventListener('pointerdown', (e) => {
+      // Do not capture or drag if interacting with controls, buttons, inputs, or tiles
+      if (e.target.closest('.hud-3d') || e.target.closest('button') || e.target.closest('input') || e.target.closest('.tile-3d')) {
+        return;
+      }
       this.isDragging3D = true;
       this.lastPointerPos = { x: e.clientX, y: e.clientY };
-      vp.setPointerCapture(e.pointerId);
+      try { vp.setPointerCapture(e.pointerId); } catch (err) {}
     });
 
     vp.addEventListener('pointermove', (e) => {
@@ -4195,7 +4243,7 @@ class ConnectionsGame {
       const dy = e.clientY - this.lastPointerPos.y;
       this.lastPointerPos = { x: e.clientX, y: e.clientY };
 
-      this.rot3D.y += dx * 0.45;
+      this.rot3D.y = (this.rot3D.y + dx * 0.45) % 360;
       this.rot3D.x = Math.max(-65, Math.min(65, this.rot3D.x - dy * 0.45));
       this.update3DTransform();
     });
@@ -4219,74 +4267,61 @@ class ConnectionsGame {
 
     // HUD Camera Buttons
     if (this.dom.btn3DIso) {
-      this.dom.btn3DIso.addEventListener('click', () => {
-        this.rot3D.x = 25;
-        this.rot3D.y = -30;
-        this.rot3D.zoom = 0;
-        this.update3DTransform();
-        this.sound.playTap();
+      this.dom.btn3DIso.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.setCameraPreset(25, -30, 0);
       });
     }
 
     if (this.dom.btn3DFront) {
-      this.dom.btn3DFront.addEventListener('click', () => {
-        this.rot3D.x = 10;
-        this.rot3D.y = 0;
-        this.rot3D.zoom = 0;
-        this.update3DTransform();
-        this.sound.playTap();
+      this.dom.btn3DFront.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.setCameraPreset(10, 0, 0);
       });
     }
 
     if (this.dom.btn3DTop) {
-      this.dom.btn3DTop.addEventListener('click', () => {
-        this.rot3D.x = 65;
-        this.rot3D.y = 0;
-        this.rot3D.zoom = -40;
-        this.update3DTransform();
-        this.sound.playTap();
+      this.dom.btn3DTop.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.setCameraPreset(65, 0, -40);
       });
     }
 
     if (this.dom.btn3DSpin) {
-      this.dom.btn3DSpin.addEventListener('click', () => {
+      this.dom.btn3DSpin.addEventListener('click', (e) => {
+        e.stopPropagation();
         this.autoSpin3D = !this.autoSpin3D;
         this.dom.btn3DSpin.classList.toggle('active', this.autoSpin3D);
         if (this.autoSpin3D) {
-          const spinLoop = () => {
-            if (!this.autoSpin3D) return;
-            if (!this.isDragging3D) {
-              this.rot3D.y += 0.28;
-              this.update3DTransform();
-            }
-            this.spinAnimFrame = requestAnimationFrame(spinLoop);
-          };
-          this.spinAnimFrame = requestAnimationFrame(spinLoop);
+          this.startSpinLoop();
         } else {
-          if (this.spinAnimFrame) cancelAnimationFrame(this.spinAnimFrame);
+          if (this.spinAnimFrame) {
+            cancelAnimationFrame(this.spinAnimFrame);
+            this.spinAnimFrame = null;
+          }
         }
       });
     }
 
     if (this.dom.btn3DReset) {
-      this.dom.btn3DReset.addEventListener('click', () => {
-        this.rot3D = { x: 22, y: -25, zoom: 0 };
-        this.update3DTransform();
-        this.sound.playTap();
+      this.dom.btn3DReset.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.setCameraPreset(22, -25, 0);
       });
     }
 
-    // Depth slider
+    // Depth slider (real-time responsiveness across all 3D dimensions)
     if (this.dom.depthSlider) {
       this.dom.depthSlider.addEventListener('input', (e) => {
         this.depth3D = parseInt(e.target.value, 10);
-        if (this.dim3D === '32') this.render3DStage();
+        this.render3DStage();
       });
     }
 
     // Dimension Switcher HUD buttons
     document.querySelectorAll('.hud-btn[data-dim]').forEach(btn => {
-      btn.addEventListener('click', () => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
         const dim = btn.getAttribute('data-dim');
         this.set3DDimension(dim);
       });

@@ -105,10 +105,10 @@
     <!-- Interactive 4x4 Grid of Tiles (2D Mode) -->
     <section id="grid-container" class="grid-container" aria-label="Puzzle Grid" role="region"></section>
 
-    <!-- 3D Spatial Stage (3D Mode) -->
-    <div id="viewport-3d" class="viewport-3d hidden" aria-label="3D Spatial Stage">
+    <!-- 3D Spatial Container (3D Mode) -->
+    <div id="container-3d" class="container-3d hidden" aria-label="3D Spatial Stage">
       <!-- 3D HUD / Controls Bar -->
-      <div class="hud-3d">
+      <div class="hud-3d" role="toolbar" aria-label="3D Matrix Controls">
         <div class="hud-group">
           <span class="hud-label">Dimension:</span>
           <div class="hud-btn-group">
@@ -136,14 +136,17 @@
         </div>
       </div>
 
-      <!-- 3D Scene & Stage -->
-      <div class="scene-3d">
-        <div id="stage-3d" class="stage-3d"></div>
-      </div>
+      <!-- 3D Viewport / Orbit Canvas -->
+      <div id="viewport-3d" class="viewport-3d" aria-label="3D Spatial Viewport">
+        <!-- 3D Scene & Stage -->
+        <div class="scene-3d">
+          <div id="stage-3d" class="stage-3d"></div>
+        </div>
 
-      <!-- 3D Touch/Mouse Hint Overlay -->
-      <div class="hint-3d">
-        <span>🖱️ Drag to rotate view • 📜 Scroll to zoom • Click tiles to connect</span>
+        <!-- 3D Touch/Mouse Hint Overlay -->
+        <div class="hint-3d">
+          <span>🖱️ Drag to rotate view • 📜 Scroll to zoom • Click tiles to connect</span>
+        </div>
       </div>
     </div>
 

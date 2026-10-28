@@ -899,9 +899,39 @@
     { topic: 'ai', audience: 'Everyone', color: 'yellow', name: "SOCIAL MEDIA POST FORMATS", items: ["STORY", "REEL", "POST", "SHORT"], dossier: { summary: "Everyday content publication formats across Instagram, TikTok, and YouTube.", legalOrTechBasis: "Consumer social platforms and user-generated content.", impact: "The primary interface through which modern society creates and consumes media." } },
     { topic: 'ai', audience: 'Civil Society', color: 'green', name: "DIGITAL PRIVACY & SECURITY TOOLS", items: ["VPN", "PASSWORD MANAGER", "AD BLOCKER", "TWO FACTOR"], dossier: { summary: "Essential digital hygiene tools protecting everyday citizens from tracking and identity theft.", legalOrTechBasis: "Cybersecurity best practices and data self-defense.", impact: "Empowers civil society against surveillance and algorithmic profiling." } },
     { topic: 'ai', audience: 'Specialist', color: 'blue', name: "COMPUTER VISION TASKS", items: ["OBJECT DETECTION", "SEGMENTATION", "DEPTH ESTIMATION", "IMAGE CLASSIFICATION"], dossier: { summary: "Core visual perception tasks automated by convolutional and transformer networks.", legalOrTechBasis: "Computer vision and autonomous navigation.", impact: "Powers everything from medical imaging to autonomous vehicles." } },
-    { topic: 'ai', audience: 'Everyone', color: 'purple', name: "THINGS THAT CAN BE 'GENERATED'", items: ["AI CONTENT", "ELECTRICITY", "LEADS", "REVENUE"], dossier: { summary: "Diverse entities that are 'generated' (AI-generated content, electricity, sales leads, corporate revenue).", legalOrTechBasis: "Commerce, energy, and generative computing.", impact: "Lateral riddle highlighting the versatile verb 'generate'." } }
-  ];
+    { topic: 'ai', audience: 'Everyone', color: 'purple', name: "THINGS THAT CAN BE 'GENERATED'", items: ["AI CONTENT", "ELECTRICITY", "LEADS", "REVENUE"], dossier: { summary: "Diverse entities that are 'generated' (AI-generated content, electricity, sales leads, corporate revenue).", legalOrTechBasis: "Commerce, energy, and generative computing.", impact: "Lateral riddle highlighting the versatile verb 'generate'." } },
 
+    // Additional Diverse Categories (Question Bank Expansion for 3D & Bi-Layer Modes)
+    { topic: 'general', audience: 'Everyone', color: 'yellow', name: "POPULAR DOG BREEDS", items: ["BEAGLE", "POODLE", "BULLDOG", "RETRIEVER"], dossier: { summary: "Domesticated canine breeds recognized globally.", legalOrTechBasis: "Zoology and companion animal welfare.", impact: "Beloved family companions." } },
+    { topic: 'general', audience: 'Everyone', color: 'green', name: "VESSELS FOR WATER TRAVEL", items: ["CANOE", "YACHT", "KAYAK", "FERRY"], dossier: { summary: "Navigational vessels used for maritime and river transit.", legalOrTechBasis: "Maritime navigation.", impact: "Ancient and modern water transportation." } },
+    { topic: 'general', audience: 'Everyone', color: 'blue', name: "THINGS WITH TEETH", items: ["COMB", "SAW", "GEAR", "ZIPPER"], dossier: { summary: "Mechanical and grooming objects featuring serrated teeth.", legalOrTechBasis: "Everyday mechanics and tooling.", impact: "Clever lateral functional association." } },
+    { topic: 'general', audience: 'Everyone', color: 'purple', name: "WORDS PRECEDING 'CARD'", items: ["POST", "CREDIT", "WILD", "GIFT"], dossier: { summary: "Terms paired with 'Card' (Postcard, Credit card, Wildcard, Gift card).", legalOrTechBasis: "Commerce, gaming, and postal mail.", impact: "Common compound noun wordplay." } },
+
+    { topic: 'science', audience: 'Civil Society', color: 'yellow', name: "SI BASE UNITS OF MEASUREMENT", items: ["METER", "KILOGRAM", "SECOND", "KELVIN"], dossier: { summary: "Standard metric base units defined by the International Bureau of Weights and Measures.", legalOrTechBasis: "BIPM Metrology standards.", impact: "The global foundation of scientific measurement." } },
+    { topic: 'science', audience: 'Civil Society', color: 'green', name: "BLOOD VESSELS IN HUMAN ANATOMY", items: ["ARTERY", "VEIN", "CAPILLARY", "AORTA"], dossier: { summary: "Tubular structures carrying blood through the circulatory system.", legalOrTechBasis: "Human physiology.", impact: "Essential cardiovascular biology." } },
+    { topic: 'science', audience: 'Everyone', color: 'blue', name: "OCEANS OF THE WORLD", items: ["PACIFIC", "ATLANTIC", "INDIAN", "ARCTIC"], dossier: { summary: "The major continuous bodies of salt water covering 71% of Earth.", legalOrTechBasis: "UN Convention on the Law of the Sea (UNCLOS).", impact: "Regulates marine biodiversity and global maritime trade." } },
+    { topic: 'science', audience: 'Everyone', color: 'purple', name: "WORDS THAT CAN PRECEDE 'WAVE'", items: ["HEAT", "SHOCK", "RADIO", "TIDAL"], dossier: { summary: "Phrases joined with 'Wave' (Heatwave, Shockwave, Radiowave, Tidal wave).", legalOrTechBasis: "Physics and meteorology.", impact: "Bridges climate events with electromagnetic physics." } },
+
+    { topic: 'culture', audience: 'Everyone', color: 'yellow', name: "CLASSIC RETRO VIDEO GAMES", items: ["TETRIS", "PACMAN", "PONG", "SPACE INVADERS"], dossier: { summary: "Pioneering arcade and console video games that birthed the gaming industry.", legalOrTechBasis: "Interactive digital entertainment history.", impact: "Cultural landmarks in computing history." } },
+    { topic: 'culture', audience: 'Civil Society', color: 'green', name: "MUSICAL TEMPO MARKINGS", items: ["ALLEGRO", "ANDANTE", "PRESTO", "LARGO"], dossier: { summary: "Traditional Italian terms indicating the speed and mood of musical compositions.", legalOrTechBasis: "Classical music theory.", impact: "Universal acoustic performance language." } },
+    { topic: 'culture', audience: 'Everyone', color: 'blue', name: "COFFEE DRINK VARIATIONS", items: ["ESPRESSO", "CAPPUCCINO", "LATTE", "AMERICANO"], dossier: { summary: "Popular espresso-based coffee beverages enjoyed globally.", legalOrTechBasis: "Culinary culture.", impact: "Everyday cafe culture across cities worldwide." } },
+    { topic: 'culture', audience: 'Everyone', color: 'purple', name: "THINGS WITH A 'CHAIR'", items: ["WHEEL", "ARM", "HIGH", "DECK"], dossier: { summary: "Words forming types of chairs (Wheelchair, Armchair, Highchair, Deckchair).", legalOrTechBasis: "Furniture design and accessibility.", impact: "Clever lateral furniture grouping." } },
+
+    { topic: 'history', audience: 'Civil Society', color: 'yellow', name: "RENAISSANCE POLYMATHS & ARTISTS", items: ["DA VINCI", "MICHELANGELO", "RAPHAEL", "DONATELLO"], dossier: { summary: "Master painters, sculptors, and architects of the Italian Renaissance.", legalOrTechBasis: "Art history and Renaissance humanism.", impact: "Catalyzed humanism and scientific inquiry." } },
+    { topic: 'history', audience: 'Everyone', color: 'green', name: "SEVEN WONDERS OF THE ANCIENT WORLD", items: ["PYRAMIDS", "COLOSSUS", "LIGHTHOUSE", "GARDENS"], dossier: { summary: "Classical architectural marvels documented by Hellenic travelers.", legalOrTechBasis: "Classical antiquities.", impact: "Early human monuments celebrating monumental engineering." } },
+    { topic: 'history', audience: 'Civil Society', color: 'blue', name: "HISTORICAL CURRENCIES BEFORE THE EURO", items: ["FRANC", "DEUTSCHE MARK", "LIRA", "PESETA"], dossier: { summary: "National currencies replaced by the single European currency in 2002.", legalOrTechBasis: "Treaty of Maastricht & European Economic and Monetary Union.", impact: "The largest monetary integration experiment in human history." } },
+    { topic: 'history', audience: 'Everyone', color: 'purple', name: "WORDS THAT CAN PRECEDE 'TOWER'", items: ["EIFFEL", "CLOCK", "CONTROL", "IVORY"], dossier: { summary: "Words paired with 'Tower' (Eiffel Tower, Clock tower, Control tower, Ivory tower).", legalOrTechBasis: "Architecture, aviation, and academic idioms.", impact: "Lateral wordplay from Paris monuments to airport runways." } },
+
+    { topic: 'law', audience: 'Specialist', color: 'yellow', name: "INTELLECTUAL PROPERTY CATEGORIES", items: ["PATENT", "COPYRIGHT", "TRADEMARK", "TRADE SECRET"], dossier: { summary: "The four primary legal regimes protecting intangible creations of the human intellect.", legalOrTechBasis: "WIPO Conventions and national IP statutory codes.", impact: "Dictates the boundaries of innovation, open access, and commercial exclusivity." } },
+    { topic: 'law', audience: 'Civil Society', color: 'green', name: "CIVIL LIBERTIES IN CRIMINAL PROCEDURE", items: ["DUE PROCESS", "SPEEDY TRIAL", "DOUBLE JEOPARDY", "RIGHT TO COUNSEL"], dossier: { summary: "Fundamental procedural guarantees protecting individuals facing state prosecution.", legalOrTechBasis: "US Bill of Rights (Amendments 5 & 6) and ECHR Article 6.", impact: "Essential legal shields guarding against wrongful imprisonment." } },
+    { topic: 'law', audience: 'Everyone', color: 'blue', name: "CRIMINAL OFFENSE CATEGORIES", items: ["ARSON", "FORGERY", "PERJURY", "LARCENY"], dossier: { summary: "Recognized common-law offenses against property, state administration, and truth.", legalOrTechBasis: "Penal code statutory jurisprudence.", impact: "The core taxonomy of criminal prohibition." } },
+    { topic: 'law', audience: 'Everyone', color: 'purple', name: "THINGS THAT CAN BE 'HELD'", items: ["COURT", "BREATH", "HANDS", "GRUDGE"], dossier: { summary: "Things that can be 'held' (Held court, Held breath, Held hands, Held a grudge).", legalOrTechBasis: "Everyday linguistic idioms.", impact: "Playful lateral bridge connecting judicial proceedings with emotion and physical touch." } },
+
+    { topic: 'ai', audience: 'Specialist', color: 'yellow', name: "FOUNDATIONAL NEURAL NETWORK TYPES", items: ["TRANSFORMER", "CONVOLUTIONAL", "RECURRENT", "DIFFUSION"], dossier: { summary: "The major mathematical network architectures powering deep learning.", legalOrTechBasis: "Machine learning literature (CNN, RNN, Transformer, Diffusion).", impact: "The algorithmic engines underlying vision, speech, reasoning, and synthesis." } },
+    { topic: 'ai', audience: 'Everyone', color: 'green', name: "MAJOR CLOUD COMPUTING HYPERSCALERS", items: ["AMAZON AWS", "MICROSOFT AZURE", "GOOGLE CLOUD", "ORACLE CLOUD"], dossier: { summary: "Leading global providers of centralized enterprise computing and AI hosting infrastructure.", legalOrTechBasis: "Cloud computing infrastructure and market competition antitrust law.", impact: "Hosts the vast majority of the world's AI training and inference pipelines." } },
+    { topic: 'ai', audience: 'Civil Society', color: 'blue', name: "DATA PROTECTION SAFEGUARDS", items: ["ENCRYPTION", "ANONYMIZATION", "PSEUDONYMIZATION", "ACCESS CONTROL"], dossier: { summary: "Technical measures required to protect confidential records and citizen privacy.", legalOrTechBasis: "GDPR Article 32 (Security of Processing) and ISO/IEC 27001.", impact: "The minimum technical bar for lawful storage of human data in digital systems." } },
+    { topic: 'ai', audience: 'Everyone', color: 'purple', name: "THINGS YOU CAN 'PROMPT'", items: ["AI MODEL", "ACTOR", "USER", "MEMORY"], dossier: { summary: "Things that receive a 'prompt' (Prompting an AI model, prompter for an actor, user prompt, memory prompt).", legalOrTechBasis: "Theater, psychology, and conversational AI.", impact: "Connects LLM prompting with traditional stage prompters and human memory!" } }
+  ];
   const TOPICS = (typeof window !== 'undefined' && Array.isArray(window.AI_TOPICS) && window.AI_TOPICS.length > 0)
     ? window.AI_TOPICS
     : BUILTIN_TOPICS;
@@ -1039,6 +1069,16 @@ class ConnectionsGame {
     this.gameWon = false;
     this.isCustom = false;
 
+    // 3D Spatial Engine State
+    this.is3D = false;
+    this.dim3D = '16'; // '16' | '32' | 'cylinder' | 'cube'
+    this.rot3D = { x: 22, y: -25, zoom: 0 };
+    this.depth3D = 100;
+    this.autoSpin3D = false;
+    this.isDragging3D = false;
+    this.lastPointerPos = { x: 0, y: 0 };
+    this.spinAnimFrame = null;
+
     // DOM Elements
     this.dom = {
       grid: document.getElementById('grid-container'),
@@ -1071,7 +1111,18 @@ class ConnectionsGame {
       topicBar: document.getElementById('topic-bar'),
       shareSection: document.getElementById('share-section'),
       sharePreview: document.getElementById('share-preview'),
-      archiveList: document.getElementById('archive-list')
+      archiveList: document.getElementById('archive-list'),
+      // 3D Engine Elements
+      tab2D: document.getElementById('tab-mode-2d'),
+      tab3D: document.getElementById('tab-mode-3d'),
+      viewport3D: document.getElementById('viewport-3d'),
+      stage3D: document.getElementById('stage-3d'),
+      depthSlider: document.getElementById('depth-slider'),
+      btn3DIso: document.getElementById('btn-3d-iso'),
+      btn3DFront: document.getElementById('btn-3d-front'),
+      btn3DTop: document.getElementById('btn-3d-top'),
+      btn3DSpin: document.getElementById('btn-3d-spin'),
+      btn3DReset: document.getElementById('btn-3d-reset')
     };
 
     this.stats = this.loadStats();
@@ -1210,7 +1261,7 @@ class ConnectionsGame {
 
     this.renderMistakes();
     this.renderSolvedCategories();
-    this.renderGrid();
+    this.renderGrid(); if (this.is3D) this.render3DStage();
     this.updateControls();
     this.notifyParentHeight();
   }
@@ -1328,14 +1379,14 @@ class ConnectionsGame {
     if (this.gameOver) return;
     this.sound.playShuffle();
     this.remainingTiles = this.shuffleArray(this.remainingTiles);
-    this.renderGrid();
+    this.renderGrid(); if (this.is3D) this.render3DStage();
   }
 
   handleDeselectAll() {
     if (this.gameOver || this.selectedTiles.size === 0) return;
     this.sound.playDeselect();
     this.selectedTiles.clear();
-    this.renderGrid();
+    this.renderGrid(); if (this.is3D) this.render3DStage();
     this.updateControls();
   }
 
@@ -1400,7 +1451,7 @@ class ConnectionsGame {
       this.selectedTiles.clear();
 
       this.renderSolvedCategories();
-      this.renderGrid();
+      this.renderGrid(); if (this.is3D) this.render3DStage();
       this.updateControls();
       this.notifyParentHeight();
 
@@ -1469,7 +1520,7 @@ class ConnectionsGame {
       this.remainingTiles = [];
       this.selectedTiles.clear();
       this.renderSolvedCategories();
-      this.renderGrid();
+      this.renderGrid(); if (this.is3D) this.render3DStage();
       this.updateControls();
       this.notifyParentHeight();
       setTimeout(() => this.openStatsModal(), 1500);
@@ -1849,7 +1900,358 @@ class ConnectionsGame {
     } catch (e) {}
   }
 
+  
+  // --- 3D Spatial Engine Methods ---
+  setGameMode(mode) {
+    this.is3D = (mode === '3d');
+    if (this.dom.tab2D && this.dom.tab3D) {
+      this.dom.tab2D.classList.toggle('active', !this.is3D);
+      this.dom.tab2D.setAttribute('aria-selected', !this.is3D ? 'true' : 'false');
+      this.dom.tab3D.classList.toggle('active', this.is3D);
+      this.dom.tab3D.setAttribute('aria-selected', this.is3D ? 'true' : 'false');
+    }
+
+    if (this.is3D) {
+      if (this.dom.grid) this.dom.grid.classList.add('hidden');
+      if (this.dom.viewport3D) this.dom.viewport3D.classList.remove('hidden');
+      this.render3DStage();
+      this.update3DTransform();
+      this.sound.playCorrect();
+      this.showToast('Entered 3D Holographic Mode 🔮');
+    } else {
+      if (this.dom.viewport3D) this.dom.viewport3D.classList.add('hidden');
+      if (this.dom.grid) this.dom.grid.classList.remove('hidden');
+      this.renderGrid(); if (this.is3D) this.render3DStage();
+      this.sound.playTap();
+      this.showToast('Returned to 2D Classic Mode 🎯');
+    }
+    this.notifyParentHeight();
+  }
+
+  set3DDimension(dim) {
+    this.dim3D = dim;
+    document.querySelectorAll('.hud-btn[data-dim]').forEach(b => {
+      b.classList.toggle('active', b.getAttribute('data-dim') === dim);
+    });
+
+    if (dim === '32') {
+      const puzzle32 = this.synthesize32TilePuzzle();
+      this.currentPuzzle = puzzle32;
+      this.isCustom = true;
+      this.maxMistakes = 6;
+      this.startPuzzle(0);
+      this.showToast('Loaded 32-Tile Bi-Layer Challenge! (8 Groups) 🌟');
+    } else {
+      if (this.currentPuzzle && this.currentPuzzle.categories.length > 4) {
+        this.maxMistakes = 4;
+        this.isCustom = false;
+        this.startPuzzle(0);
+      }
+      this.render3DStage();
+      this.showToast(`Switched to 3D ${dim.toUpperCase()} view`);
+    }
+  }
+
+  synthesize32TilePuzzle() {
+    const yPool = CATEGORY_BANK.filter(c => c.color === 'yellow');
+    const gPool = CATEGORY_BANK.filter(c => c.color === 'green');
+    const bPool = CATEGORY_BANK.filter(c => c.color === 'blue');
+    const pPool = CATEGORY_BANK.filter(c => c.color === 'purple');
+
+    for (let attempt = 0; attempt < 50; attempt++) {
+      const pickY = this.shuffleArray(yPool).slice(0, 2);
+      const pickG = this.shuffleArray(gPool).slice(0, 2);
+      const pickB = this.shuffleArray(bPool).slice(0, 2);
+      const pickP = this.shuffleArray(pPool).slice(0, 2);
+
+      const allCats = [...pickY, ...pickG, ...pickB, ...pickP];
+      if (allCats.length !== 8) continue;
+
+      const words = new Set();
+      let hasCollision = false;
+      allCats.forEach(c => {
+        c.items.forEach(item => {
+          const up = item.toUpperCase();
+          if (words.has(up)) hasCollision = true;
+          words.add(up);
+        });
+      });
+
+      if (!hasCollision && words.size === 32) {
+        return {
+          id: '3D-DUAL-DECK',
+          title: '3D Dual-Layer Matrix (32 Tiles / 8 Groups)',
+          topic: 'mixed',
+          audience: 'Everyone',
+          difficulty: 'Grandmaster',
+          categories: JSON.parse(JSON.stringify(allCats))
+        };
+      }
+    }
+
+    // Fallback: return 8 categories from puzzle collection
+    return {
+      id: '3D-DUAL-DECK',
+      title: '3D Dual-Layer Matrix',
+      topic: 'mixed',
+      audience: 'Everyone',
+      difficulty: 'Grandmaster',
+      categories: [...PUZZLES[0].categories, ...PUZZLES[1].categories]
+    };
+  }
+
+  render3DStage() {
+    if (!this.dom.stage3D) return;
+    this.dom.stage3D.innerHTML = '';
+
+    const tiles = this.remainingTiles;
+
+    if (this.dim3D === '32') {
+      // Bi-Layer 4x4x2 Matrix
+      const half = Math.ceil(tiles.length / 2);
+      const deckA = tiles.slice(0, half);
+      const deckB = tiles.slice(half);
+
+      const layerA = document.createElement('div');
+      layerA.className = 'layer-3d grid-4x4';
+      layerA.style.transform = `translateZ(${this.depth3D / 2}px)`;
+      
+      const badgeA = document.createElement('div');
+      badgeA.className = 'layer-badge-3d deck-a';
+      badgeA.textContent = 'Deck Alpha (Upper)';
+      layerA.appendChild(badgeA);
+
+      deckA.forEach(tileObj => {
+        layerA.appendChild(this.create3DTileElement(tileObj));
+      });
+
+      const layerB = document.createElement('div');
+      layerB.className = 'layer-3d grid-4x4';
+      layerB.style.transform = `translateZ(-${this.depth3D / 2}px)`;
+      
+      const badgeB = document.createElement('div');
+      badgeB.className = 'layer-badge-3d deck-b';
+      badgeB.textContent = 'Deck Beta (Lower)';
+      layerB.appendChild(badgeB);
+
+      deckB.forEach(tileObj => {
+        layerB.appendChild(this.create3DTileElement(tileObj));
+      });
+
+      this.dom.stage3D.appendChild(layerA);
+      this.dom.stage3D.appendChild(layerB);
+    } else if (this.dim3D === 'cylinder') {
+      // 3D Orbital Cylindrical Ring
+      const radius = 260;
+      const total = tiles.length;
+      const angleStep = 360 / Math.max(total, 1);
+
+      tiles.forEach((tileObj, i) => {
+        const angle = i * angleStep;
+        const tile = this.create3DTileElement(tileObj);
+        tile.style.position = 'absolute';
+        tile.style.width = '100px';
+        tile.style.height = '60px';
+        tile.style.left = 'calc(50% - 50px)';
+        tile.style.top = 'calc(50% - 30px)';
+        tile.style.transform = `rotateY(${angle}deg) translateZ(${radius}px)`;
+        this.dom.stage3D.appendChild(tile);
+      });
+    } else if (this.dim3D === 'cube') {
+      // 3D Cube (4 faces around Y)
+      const sideDistance = 160;
+      const faces = [[], [], [], []]; // Front (0), Right (90), Back (180), Left (270)
+      tiles.forEach((t, i) => faces[i % 4].push(t));
+
+      const faceAngles = [0, 90, 180, 270];
+      faces.forEach((faceTiles, fIdx) => {
+        const faceDiv = document.createElement('div');
+        faceDiv.className = 'layer-3d';
+        faceDiv.style.width = '240px';
+        faceDiv.style.height = '240px';
+        faceDiv.style.left = 'calc(50% - 120px)';
+        faceDiv.style.top = 'calc(50% - 120px)';
+        faceDiv.style.gridTemplateColumns = 'repeat(2, 1fr)';
+        faceDiv.style.gridTemplateRows = 'repeat(2, 1fr)';
+        faceDiv.style.transform = `rotateY(${faceAngles[fIdx]}deg) translateZ(${sideDistance}px)`;
+
+        faceTiles.forEach(tObj => {
+          faceDiv.appendChild(this.create3DTileElement(tObj));
+        });
+        this.dom.stage3D.appendChild(faceDiv);
+      });
+    } else {
+      // Default 4x4 Planar Deck with 3D elevation
+      const layer = document.createElement('div');
+      layer.className = 'layer-3d grid-4x4';
+      layer.style.transform = 'translateZ(0px)';
+
+      tiles.forEach(tileObj => {
+        layer.appendChild(this.create3DTileElement(tileObj));
+      });
+      this.dom.stage3D.appendChild(layer);
+    }
+
+    this.update3DTransform();
+  }
+
+  create3DTileElement(tileObj) {
+    const tile = document.createElement('div');
+    tile.className = 'tile-3d';
+    tile.textContent = tileObj.text;
+    tile.setAttribute('role', 'checkbox');
+    tile.setAttribute('aria-checked', this.selectedTiles.has(tileObj.text) ? 'true' : 'false');
+    tile.setAttribute('tabindex', '0');
+
+    if (tileObj.text.length > 22) {
+      tile.style.fontSize = '0.62rem';
+    } else if (tileObj.text.length > 14) {
+      tile.style.fontSize = '0.7rem';
+    }
+
+    if (this.selectedTiles.has(tileObj.text)) {
+      tile.classList.add('selected');
+    }
+
+    tile.addEventListener('click', (e) => {
+      e.stopPropagation();
+      this.handleTileClick(tileObj.text, tile);
+      if (this.is3D) this.render3DStage();
+    });
+
+    return tile;
+  }
+
+  update3DTransform() {
+    if (!this.dom.stage3D) return;
+    this.dom.stage3D.style.transform = `rotateX(${this.rot3D.x}deg) rotateY(${this.rot3D.y}deg) translateZ(${this.rot3D.zoom}px)`;
+  }
+
+  init3DOrbitControls() {
+    if (!this.dom.viewport3D) return;
+
+    const vp = this.dom.viewport3D;
+
+    vp.addEventListener('pointerdown', (e) => {
+      this.isDragging3D = true;
+      this.lastPointerPos = { x: e.clientX, y: e.clientY };
+      vp.setPointerCapture(e.pointerId);
+    });
+
+    vp.addEventListener('pointermove', (e) => {
+      if (!this.isDragging3D) return;
+      const dx = e.clientX - this.lastPointerPos.x;
+      const dy = e.clientY - this.lastPointerPos.y;
+      this.lastPointerPos = { x: e.clientX, y: e.clientY };
+
+      this.rot3D.y += dx * 0.45;
+      this.rot3D.x = Math.max(-65, Math.min(65, this.rot3D.x - dy * 0.45));
+      this.update3DTransform();
+    });
+
+    const stopDrag = (e) => {
+      if (this.isDragging3D) {
+        this.isDragging3D = false;
+        try { vp.releasePointerCapture(e.pointerId); } catch (err) {}
+      }
+    };
+
+    vp.addEventListener('pointerup', stopDrag);
+    vp.addEventListener('pointercancel', stopDrag);
+
+    // Zoom on wheel
+    vp.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      this.rot3D.zoom = Math.max(-200, Math.min(260, this.rot3D.zoom - e.deltaY * 0.4));
+      this.update3DTransform();
+    }, { passive: false });
+
+    // HUD Camera Buttons
+    if (this.dom.btn3DIso) {
+      this.dom.btn3DIso.addEventListener('click', () => {
+        this.rot3D.x = 25;
+        this.rot3D.y = -30;
+        this.rot3D.zoom = 0;
+        this.update3DTransform();
+        this.sound.playTap();
+      });
+    }
+
+    if (this.dom.btn3DFront) {
+      this.dom.btn3DFront.addEventListener('click', () => {
+        this.rot3D.x = 10;
+        this.rot3D.y = 0;
+        this.rot3D.zoom = 0;
+        this.update3DTransform();
+        this.sound.playTap();
+      });
+    }
+
+    if (this.dom.btn3DTop) {
+      this.dom.btn3DTop.addEventListener('click', () => {
+        this.rot3D.x = 65;
+        this.rot3D.y = 0;
+        this.rot3D.zoom = -40;
+        this.update3DTransform();
+        this.sound.playTap();
+      });
+    }
+
+    if (this.dom.btn3DSpin) {
+      this.dom.btn3DSpin.addEventListener('click', () => {
+        this.autoSpin3D = !this.autoSpin3D;
+        this.dom.btn3DSpin.classList.toggle('active', this.autoSpin3D);
+        if (this.autoSpin3D) {
+          const spinLoop = () => {
+            if (!this.autoSpin3D) return;
+            if (!this.isDragging3D) {
+              this.rot3D.y += 0.28;
+              this.update3DTransform();
+            }
+            this.spinAnimFrame = requestAnimationFrame(spinLoop);
+          };
+          this.spinAnimFrame = requestAnimationFrame(spinLoop);
+        } else {
+          if (this.spinAnimFrame) cancelAnimationFrame(this.spinAnimFrame);
+        }
+      });
+    }
+
+    if (this.dom.btn3DReset) {
+      this.dom.btn3DReset.addEventListener('click', () => {
+        this.rot3D = { x: 22, y: -25, zoom: 0 };
+        this.update3DTransform();
+        this.sound.playTap();
+      });
+    }
+
+    // Depth slider
+    if (this.dom.depthSlider) {
+      this.dom.depthSlider.addEventListener('input', (e) => {
+        this.depth3D = parseInt(e.target.value, 10);
+        if (this.dim3D === '32') this.render3DStage();
+      });
+    }
+
+    // Dimension Switcher HUD buttons
+    document.querySelectorAll('.hud-btn[data-dim]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const dim = btn.getAttribute('data-dim');
+        this.set3DDimension(dim);
+      });
+    });
+
+    // Mode Tabs (2D vs 3D)
+    if (this.dom.tab2D) {
+      this.dom.tab2D.addEventListener('click', () => this.setGameMode('2d'));
+    }
+    if (this.dom.tab3D) {
+      this.dom.tab3D.addEventListener('click', () => this.setGameMode('3d'));
+    }
+  }
+
   bindEvents() {
+    this.init3DOrbitControls();
     this.dom.btnShuffle.addEventListener('click', () => this.handleShuffle());
     this.dom.btnDeselect.addEventListener('click', () => this.handleDeselectAll());
     this.dom.btnHint.addEventListener('click', () => this.handleHint());

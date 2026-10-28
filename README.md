@@ -30,6 +30,14 @@ Whether you are a casual player looking for fun everyday trivia, a student, a ci
 
 ## ✨ Key Features
 
+- **🔮 Experimental 3D Spatial Holographic Mode:** Seamlessly switch between **2D Classic** and **3D Spatial** modes with a single click.
+  - **Hardware-Accelerated CSS 3D:** 120 FPS GPU rendering with zero heavy WebGL libraries.
+  - **Multi-Dimension Switcher:**
+    - `4×4 (16 Items)`: Classic 3D floating planar matrix.
+    - `4×4×2 (32 Items / 8 Groups)`: Epic dual-layer deck with Alpha (Upper) and Beta (Lower) depth layers!
+    - `3D Cylindrical Orbit`: Futuristic rotating carousel ring.
+    - `3D Cube Faces`: 4 sides of an interactive rotating spatial prism.
+  - **Orbital Camera Controls:** Drag to freely rotate 360°, scroll wheel to zoom in/out, depth slider to expand/contract layer spacing in real time, with quick presets (Isometric, Frontal, Top-Down, and Gentle Auto-Spin).
 - **🌐 Multi-Topic Selector & Dynamic Mix Generator:** Quick one-click topic pill navigation + a comprehensive modal with checkboxes to mix and blend any subject.
 - **👥 3 Audience Tiers:** 
   - `Everyone / Casual` (zero jargon, highly intuitive, fun for all ages)
@@ -42,7 +50,7 @@ Whether you are a casual player looking for fun everyday trivia, a student, a ci
 - **🔊 Web Audio API Synthesizer:** Polyphonic haptic audio synthesized directly in code (clicks, error buzzes, chord progressions, victory fanfares) with **0 bytes of external audio asset bloat**.
 - **🎨 Glassmorphic Aesthetic & Dual Theme:** Seamless dark (`#0b0f19`) and light modes styled to match the editorial luxury standard of [aviperera.com](https://aviperera.com).
 - **📐 Iframe Auto-Resizer:** Native `postMessage` protocol allowing parents (WordPress / Kadence) to auto-adjust iframe height dynamically with zero scrollbars.
-- **⚡ Ultra-Lightweight Footprint:** The entire project totals **~140 KB** across all assets, utilizing **zero `node_modules`** and zero laptop storage bloat.
+- **⚡ Ultra-Lightweight Footprint:** The entire project totals **~210 KB** across all assets, utilizing **zero `node_modules`** and zero laptop storage bloat.
 
 ---
 

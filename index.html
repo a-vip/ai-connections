@@ -85,11 +85,63 @@
       <p class="instruction-text">Find 4 groups of 4 items with a common link. Tap solved cards for Dossiers!</p>
     </header>
 
+    <!-- Mode Switcher Tabs (2D Classic vs 3D Spatial) -->
+    <div class="mode-tabs-container" role="tablist" aria-label="Game Mode Tabs">
+      <button id="tab-mode-2d" class="mode-tab active" role="tab" aria-selected="true" data-mode="2d">
+        🎯 2D Classic
+      </button>
+      <button id="tab-mode-3d" class="mode-tab mode-tab-3d" role="tab" aria-selected="false" data-mode="3d">
+        🔮 3D Spatial (Experimental)
+      </button>
+    </div>
+
     <!-- Solved Categories Stack -->
     <section id="solved-categories" class="solved-categories" aria-label="Solved Categories"></section>
 
-    <!-- Interactive 4x4 Grid of Tiles -->
+    <!-- Interactive 4x4 Grid of Tiles (2D Mode) -->
     <section id="grid-container" class="grid-container" aria-label="Puzzle Grid" role="region"></section>
+
+    <!-- 3D Spatial Stage (3D Mode) -->
+    <div id="viewport-3d" class="viewport-3d hidden" aria-label="3D Spatial Stage">
+      <!-- 3D HUD / Controls Bar -->
+      <div class="hud-3d">
+        <div class="hud-group">
+          <span class="hud-label">Dimension:</span>
+          <div class="hud-btn-group">
+            <button class="hud-btn active" data-dim="16" title="Classic 4x4 3D Matrix (16 Items)">4×4 (16)</button>
+            <button class="hud-btn" data-dim="32" title="Dual-Layer Deck 4x4x2 (32 Items / 8 Categories!)">4×4×2 (32)</button>
+            <button class="hud-btn" data-dim="cylinder" title="3D Cylindrical Ring">Orbit</button>
+            <button class="hud-btn" data-dim="cube" title="3D Cube Faces">Cube</button>
+          </div>
+        </div>
+
+        <div class="hud-group">
+          <span class="hud-label">Camera:</span>
+          <div class="hud-btn-group">
+            <button id="btn-3d-iso" class="hud-btn" title="Isometric Perspective">🎲 Iso</button>
+            <button id="btn-3d-front" class="hud-btn" title="Frontal Tilt">📐 Front</button>
+            <button id="btn-3d-top" class="hud-btn" title="Top-Down View">👁️ Top</button>
+            <button id="btn-3d-spin" class="hud-btn" title="Toggle Gentle Auto-Spin">🔄 Spin</button>
+            <button id="btn-3d-reset" class="hud-btn" title="Reset Camera Angle">⟲ Reset</button>
+          </div>
+        </div>
+
+        <div class="hud-group depth-control">
+          <span class="hud-label">Depth:</span>
+          <input type="range" id="depth-slider" min="30" max="220" value="100" class="hud-slider" title="Adjust 3D Layer Spacing">
+        </div>
+      </div>
+
+      <!-- 3D Scene & Stage -->
+      <div class="scene-3d">
+        <div id="stage-3d" class="stage-3d"></div>
+      </div>
+
+      <!-- 3D Touch/Mouse Hint Overlay -->
+      <div class="hint-3d">
+        <span>🖱️ Drag to rotate view • 📜 Scroll to zoom • Click tiles to connect</span>
+      </div>
+    </div>
 
     <!-- Mistakes Remaining -->
     <div class="mistakes-container" aria-label="Mistakes Remaining">

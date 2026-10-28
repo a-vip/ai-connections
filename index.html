@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>AI Connections: The AI Law, Policy & Systems Puzzle | Avi Perera</title>
+  <meta name="description" content="A daily lateral puzzle game dedicated to AI governance, international law, autonomous weapons, foundation models, and frontier safety. Created by Avi Perera." />
+  <meta name="author" content="Avi Perera" />
+  <meta property="og:title" content="AI Connections: The AI Law & Policy Puzzle" />
+  <meta property="og:description" content="Test your lateral knowledge across the EU AI Act, international treaties, autonomous weapons, and frontier LLMs in this daily NYT-style Connections puzzle." />
+  <meta property="og:url" content="https://aviperera.com/connections" />
+  <meta property="og:type" content="website" />
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <!-- Main Game Container -->
+  <main class="game-container" role="main">
+    
+    <!-- Header -->
+    <header class="game-header">
+      <div class="header-top">
+        <div class="brand-wrapper">
+          <div class="logo-badge" aria-hidden="true">AI</div>
+          <h1 class="game-title">AI Connections</h1>
+        </div>
+
+        <div class="header-actions">
+          <button id="btn-archive" class="icon-btn" title="Puzzle Archive & Daily Selector" aria-label="Open puzzle archive">
+            📚
+          </button>
+          <button id="btn-custom" class="icon-btn" title="Create Custom Puzzle" aria-label="Create custom puzzle">
+            ✏️
+          </button>
+          <button id="btn-help" class="icon-btn" title="How to Play" aria-label="How to play instructions">
+            ❓
+          </button>
+          <button id="btn-stats" class="icon-btn" title="Your Statistics & Streak" aria-label="View statistics">
+            📊
+          </button>
+          <button id="btn-sound" class="icon-btn" title="Toggle Sound" aria-label="Toggle sound effects">
+            🔊
+          </button>
+          <button id="btn-theme" class="icon-btn" title="Toggle Theme" aria-label="Toggle dark/light theme">
+            🌓
+          </button>
+        </div>
+      </div>
+
+      <div class="puzzle-meta-bar">
+        <span id="puzzle-title-display" class="puzzle-badge">Puzzle #1</span>
+        <span id="puzzle-difficulty-display" class="difficulty-pill Intermediate">Intermediate</span>
+        <span id="puzzle-mode-tag" style="font-size: 0.75rem; color: var(--text-muted);">Daily Challenge</span>
+      </div>
+
+      <p class="instruction-text">Find 4 groups of 4 items with a common AI, policy, or legal connection.</p>
+    </header>
+
+    <!-- Solved Categories Stack -->
+    <section id="solved-categories" class="solved-categories" aria-label="Solved Categories"></section>
+
+    <!-- Interactive 4x4 Grid of Tiles -->
+    <section id="grid-container" class="grid-container" aria-label="Puzzle Grid" role="region"></section>
+
+    <!-- Mistakes Remaining -->
+    <div class="mistakes-container" aria-label="Mistakes Remaining">
+      <span>Mistakes remaining:</span>
+      <div id="mistake-dots" class="mistake-dots">
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls-container">
+      <button id="btn-shuffle" class="game-btn" aria-label="Shuffle items">
+        🔀 Shuffle
+      </button>
+      <button id="btn-deselect" class="game-btn" aria-label="Deselect all">
+        Deselect All
+      </button>
+      <button id="btn-hint" class="game-btn subtle" title="Subtle hint on one category" aria-label="Get a hint">
+        💡 Hint
+      </button>
+      <button id="btn-submit" class="game-btn primary" disabled aria-label="Submit selection">
+        Submit
+      </button>
+    </div>
+
+    <!-- Footer / Attribution -->
+    <footer class="game-footer">
+      <span>Curated & Developed by <a href="https://aviperera.com" target="_blank" rel="noopener">Avi Perera</a></span>
+      <span>AI Governance • International Law • Autonomous Systems (LAWS)</span>
+    </footer>
+  </main>
+
+  <!-- MODAL: Intelligence Dossier (Deep Explainer on Solved Categories) -->
+  <div id="modal-dossier" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="dossier-title">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="dossier-title" class="modal-title">📖 Intelligence Dossier</h2>
+        <button class="close-btn" data-close="modal-dossier" aria-label="Close modal">&times;</button>
+      </div>
+      <div class="dossier-body">
+        <span id="dossier-pill" class="dossier-pill yellow">Category</span>
+        <div class="dossier-section">
+          <span class="dossier-label">Core Connection &amp; Items</span>
+          <p id="dossier-items" class="dossier-text" style="font-weight: 700;"></p>
+        </div>
+        <div class="dossier-section">
+          <span class="dossier-label">Executive Analytical Summary</span>
+          <p id="dossier-summary" class="dossier-text"></p>
+        </div>
+        <div class="dossier-section">
+          <span class="dossier-label">Legal, Treaty or Technical Basis</span>
+          <p id="dossier-basis" class="dossier-quote"></p>
+        </div>
+        <div class="dossier-section">
+          <span class="dossier-label">Policy &amp; Strategic Impact</span>
+          <p id="dossier-impact" class="dossier-text"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: How to Play -->
+  <div id="modal-help" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="help-title">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="help-title" class="modal-title">❓ How to Play AI Connections</h2>
+        <button class="close-btn" data-close="modal-help" aria-label="Close modal">&times;</button>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:12px; font-size:0.9rem; color:var(--text-secondary);">
+        <p><strong style="color:var(--text-primary);">Objective:</strong> Find 4 groups of 4 items that share an AI-related link without making 4 mistakes.</p>
+        
+        <div>
+          <strong style="color:var(--text-primary); display:block; margin-bottom:6px;">Difficulty Color Coding:</strong>
+          <ul style="list-style:none; display:flex; flex-direction:column; gap:6px; padding-left:0;">
+            <li style="display:flex; align-items:center; gap:8px;"><span style="color:#f59e0b; font-weight:800;">🟨 Yellow:</span> Straightforward / Core AI &amp; Policy concepts</li>
+            <li style="display:flex; align-items:center; gap:8px;"><span style="color:#10b981; font-weight:800;">🟩 Green:</span> Intermediate / Technical &amp; Operational taxonomy</li>
+            <li style="display:flex; align-items:center; gap:8px;"><span style="color:#3b82f6; font-weight:800;">🟦 Blue:</span> Advanced / Treaties, Statutes, Caselaw &amp; Frameworks</li>
+            <li style="display:flex; align-items:center; gap:8px;"><span style="color:#8b5cf6; font-weight:800;">🟪 Purple:</span> Tricky / Wordplay, Acronyms, Lateral Associations</li>
+          </ul>
+        </div>
+
+        <p><strong style="color:var(--text-primary);">Beware of Red Herrings:</strong> Words that look like they belong to multiple groups have exactly one valid 4-group solution!</p>
+
+        <p><strong style="color:var(--text-primary);">Intelligence Dossiers:</strong> Once a category is solved, click its card at any time to open its full legal citation, executive summary, and policy analysis.</p>
+
+        <p><strong style="color:var(--text-primary);">Keyboard Shortcuts:</strong> Space or Enter to select, Backspace or Esc to deselect, S to shuffle.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Puzzle Archive Vault -->
+  <div id="modal-archive" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="archive-title">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="archive-title" class="modal-title">📚 Puzzle Archive Vault</h2>
+        <button class="close-btn" data-close="modal-archive" aria-label="Close modal">&times;</button>
+      </div>
+      <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:10px;">Select any puzzle from our curated collection across AI Law, Policy, LAWS, and Frontier Systems.</p>
+      <div id="archive-list" class="archive-grid"></div>
+    </div>
+  </div>
+
+  <!-- MODAL: Stats & Share -->
+  <div id="modal-stats" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="stats-title">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="stats-title" class="modal-title">📊 Game Statistics</h2>
+        <button class="close-btn" data-close="modal-stats" aria-label="Close modal">&times;</button>
+      </div>
+      
+      <div class="stats-grid">
+        <div class="stat-box">
+          <div id="stat-played" class="stat-value">0</div>
+          <div class="stat-label">Played</div>
+        </div>
+        <div class="stat-box">
+          <div id="stat-win-pct" class="stat-value">0%</div>
+          <div class="stat-label">Win %</div>
+        </div>
+        <div class="stat-box">
+          <div id="stat-streak" class="stat-value">0</div>
+          <div class="stat-label">Streak</div>
+        </div>
+        <div class="stat-box">
+          <div id="stat-max-streak" class="stat-value">0</div>
+          <div class="stat-label">Max Streak</div>
+        </div>
+      </div>
+
+      <div id="share-section" class="hidden" style="display:flex; flex-direction:column; gap:10px;">
+        <span style="font-size:0.8rem; font-weight:700; text-transform:uppercase; color:var(--text-secondary);">Your Result Grid</span>
+        <div id="share-preview" class="share-preview-box"></div>
+        <button id="btn-share-copy" class="game-btn primary" style="width:100%;">
+          📋 Copy Result to Clipboard
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Custom Puzzle Creator -->
+  <div id="modal-custom" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="custom-title">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="custom-title" class="modal-title">✏️ Create Custom AI Puzzle</h2>
+        <button class="close-btn" data-close="modal-custom" aria-label="Close modal">&times;</button>
+      </div>
+      <p style="font-size:0.85rem; color:var(--text-secondary);">Design your own 4-group puzzle. Once validated, generate a shareable link that anyone can play!</p>
+      
+      <div style="display:flex; flex-direction:column; gap:8px;">
+        <div>
+          <label class="input-label">Puzzle Title</label>
+          <input id="custom-puzzle-title" class="text-input" type="text" placeholder="e.g. The Brussels Effect" style="width:100%;" />
+        </div>
+
+        <!-- Group 1: Yellow -->
+        <div class="creator-group yellow">
+          <label class="input-label">🟨 Yellow Group (Straightforward)</label>
+          <input id="custom-g1-title" class="text-input" type="text" placeholder="Category Name" style="width:100%; margin-bottom:6px;" />
+          <div class="items-grid-input">
+            <input id="custom-g1-item1" class="text-input" placeholder="Item 1" />
+            <input id="custom-g1-item2" class="text-input" placeholder="Item 2" />
+            <input id="custom-g1-item3" class="text-input" placeholder="Item 3" />
+            <input id="custom-g1-item4" class="text-input" placeholder="Item 4" />
+          </div>
+        </div>
+
+        <!-- Group 2: Green -->
+        <div class="creator-group green">
+          <label class="input-label">🟩 Green Group (Intermediate)</label>
+          <input id="custom-g2-title" class="text-input" type="text" placeholder="Category Name" style="width:100%; margin-bottom:6px;" />
+          <div class="items-grid-input">
+            <input id="custom-g2-item1" class="text-input" placeholder="Item 1" />
+            <input id="custom-g2-item2" class="text-input" placeholder="Item 2" />
+            <input id="custom-g2-item3" class="text-input" placeholder="Item 3" />
+            <input id="custom-g2-item4" class="text-input" placeholder="Item 4" />
+          </div>
+        </div>
+
+        <!-- Group 3: Blue -->
+        <div class="creator-group blue">
+          <label class="input-label">🟦 Blue Group (Advanced)</label>
+          <input id="custom-g3-title" class="text-input" type="text" placeholder="Category Name" style="width:100%; margin-bottom:6px;" />
+          <div class="items-grid-input">
+            <input id="custom-g3-item1" class="text-input" placeholder="Item 1" />
+            <input id="custom-g3-item2" class="text-input" placeholder="Item 2" />
+            <input id="custom-g3-item3" class="text-input" placeholder="Item 3" />
+            <input id="custom-g3-item4" class="text-input" placeholder="Item 4" />
+          </div>
+        </div>
+
+        <!-- Group 4: Purple -->
+        <div class="creator-group purple">
+          <label class="input-label">🟪 Purple Group (Tricky / Lateral)</label>
+          <input id="custom-g4-title" class="text-input" type="text" placeholder="Category Name" style="width:100%; margin-bottom:6px;" />
+          <div class="items-grid-input">
+            <input id="custom-g4-item1" class="text-input" placeholder="Item 1" />
+            <input id="custom-g4-item2" class="text-input" placeholder="Item 2" />
+            <input id="custom-g4-item3" class="text-input" placeholder="Item 3" />
+            <input id="custom-g4-item4" class="text-input" placeholder="Item 4" />
+          </div>
+        </div>
+
+        <button id="btn-generate-custom" class="game-btn primary" style="width:100%; margin-top:8px;">
+          🔗 Validate &amp; Generate Shareable Link
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript Entry Point -->
+  <script type="module" src="app.js"></script>
+</body>
+</html>

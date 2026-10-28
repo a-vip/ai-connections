@@ -14,17 +14,21 @@
 
 **AI & Multi-Topic Connections** is an intellectual twist on the popular NYT Connections game mechanic, thoughtfully designed for **both the general public and domain specialists**. 
 
-Whether you are a casual player looking for fun everyday trivia, a student, a civil society activist, or an international AI policy lawyer, the game offers tailored game modes across **8 distinct topics** and **3 audience tiers**:
+Whether you are a casual player looking for fun everyday trivia, a student, a civil society activist, or an international AI policy lawyer, the game offers tailored game modes across **13 distinct topics** and **3 audience tiers**:
 
-- **🧠 General Knowledge & Everyday Life:** Kitchen essentials, voice assistants, smart devices, everyday food, board games (accessible to everyone without university education).
-- **🎬 Culture & Media:** Movies, music formats, superhero teams, streaming platforms, pop culture.
-- **🔬 Science & Nature:** Animals, big cats, planets, renewable energy, cloud types, physics.
-- **📜 History & Heritage:** Ancient civilizations, epochal inventions, world wonders, historical peace conferences.
-- **🏛️ Politics & Society:** Fundamental democratic rights, voting, elections, civic advocacy, branches of government.
-- **⚖️ Law & Justice:** Courtroom basics, evidence, civil liberties, contract essentials, Latin maxims, landmark cases.
+- **🧠 General Knowledge & Everyday Life:** Kitchen essentials, voice assistants, smart devices, everyday food, board games, DIY tools, street food, childhood games.
+- **🐾 Animals & Wildlife:** Bear species, nocturnal animals, flightless birds, marine mammals, marsupials, animal homophones.
+- **⚗️ Chemistry & Matter:** Household compounds, laboratory glassware, precious metals, metallic alloys, chemical bonds, acids.
+- **📐 Mathematics & Logic:** Basic 2D/3D shapes, Platonic solids, mathematical constants, number theory, trigonometric functions.
+- **📰 Current Events & Modern World:** Olympic host cities, active Mars exploration rovers, multilateral climate accords, creator economy, clean energy innovations.
+- **🎬 Culture & Media:** Movies, music formats, superhero teams, streaming platforms, pop culture, retro arcade video games.
+- **🔬 Science & Physics:** Planets, SI base units of measurement, anatomy blood vessels, oceans, renewable energy, cloud types.
+- **📜 History & Heritage:** Ancient civilizations, epochal inventions, world wonders, Renaissance polymaths, historical peace conferences, pre-Euro currencies.
+- **🏛️ Politics & Society:** Fundamental democratic rights, voting, elections, civic advocacy, branches of government, forms of government.
+- **⚖️ Law & Justice:** Courtroom basics, evidence, civil liberties, contract essentials, Latin maxims, landmark cases, intellectual property.
 - **🌍 International Relations:** UN diplomacy, world capitals, passports, treaties, sanctions, P5 members.
 - **🤖 AI & Technology:** Everyday social media formats and privacy tools up to the EU AI Act, compute hardware, and autonomous weapons (LAWS).
-- **🔀 Custom Mix & Match:** An interactive topic checklist allowing players to select any combination of topics to dynamically synthesize infinite 16-word puzzles on the fly!
+- **🔀 Custom Mix & Match:** An interactive topic checklist allowing players to select any combination of topics to dynamically synthesize infinite 16-word or 32-word puzzles on the fly!
 
 ---
 

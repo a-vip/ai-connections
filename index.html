@@ -62,12 +62,16 @@
       <nav id="topic-bar" class="topic-bar" aria-label="Topic Filter">
         <button class="topic-pill active" data-topic="all">🌐 All</button>
         <button class="topic-pill" data-topic="general">🧠 General (Everyone)</button>
+        <button class="topic-pill" data-topic="animals">🐾 Animals &amp; Nature</button>
+        <button class="topic-pill" data-topic="chemistry">⚗️ Chemistry</button>
+        <button class="topic-pill" data-topic="math">📐 Mathematics</button>
+        <button class="topic-pill" data-topic="current">📰 Current Events</button>
         <button class="topic-pill" data-topic="culture">🎬 Culture</button>
         <button class="topic-pill" data-topic="science">🔬 Science</button>
         <button class="topic-pill" data-topic="history">📜 History</button>
         <button class="topic-pill" data-topic="politics">🏛️ Politics</button>
         <button class="topic-pill" data-topic="law">⚖️ Law</button>
-        <button class="topic-pill" data-topic="ir">🌍 World / IR</button>
+        <button class="topic-pill" data-topic="ir">🌍 World</button>
         <button class="topic-pill" data-topic="ai">🤖 AI &amp; Tech</button>
         <button id="btn-pill-mix" class="topic-pill special-mix" data-topic="mix">🔀 Mix Topics</button>
       </nav>
@@ -251,6 +255,10 @@
         <div id="archive-topic-filter" class="topic-bar">
           <button class="topic-pill active" data-filter-topic="all">All</button>
           <button class="topic-pill" data-filter-topic="general">General</button>
+          <button class="topic-pill" data-filter-topic="animals">Animals</button>
+          <button class="topic-pill" data-filter-topic="chemistry">Chemistry</button>
+          <button class="topic-pill" data-filter-topic="math">Math</button>
+          <button class="topic-pill" data-filter-topic="current">Current</button>
           <button class="topic-pill" data-filter-topic="culture">Culture</button>
           <button class="topic-pill" data-filter-topic="science">Science</button>
           <button class="topic-pill" data-filter-topic="history">History</button>
@@ -289,28 +297,56 @@
           <input type="checkbox" name="topic-choice" value="general" checked>
           <div class="topic-info">
             <span class="topic-name">🧠 General Knowledge</span>
-            <span class="topic-sub">Accessible to everyone, everyday life</span>
+            <span class="topic-sub">Everyday life, kitchen, DIY &amp; fun</span>
+          </div>
+        </label>
+        <label class="topic-checkbox-card">
+          <input type="checkbox" name="topic-choice" value="animals" checked>
+          <div class="topic-info">
+            <span class="topic-name">🐾 Animals &amp; Wildlife</span>
+            <span class="topic-sub">Bears, marine creatures &amp; nocturnal fauna</span>
+          </div>
+        </label>
+        <label class="topic-checkbox-card">
+          <input type="checkbox" name="topic-choice" value="chemistry" checked>
+          <div class="topic-info">
+            <span class="topic-name">⚗️ Chemistry &amp; Matter</span>
+            <span class="topic-sub">Acids, lab glassware, metals &amp; alloys</span>
+          </div>
+        </label>
+        <label class="topic-checkbox-card">
+          <input type="checkbox" name="topic-choice" value="math" checked>
+          <div class="topic-info">
+            <span class="topic-name">📐 Mathematics &amp; Logic</span>
+            <span class="topic-sub">2D/3D shapes, constants &amp; trigonometry</span>
+          </div>
+        </label>
+        <label class="topic-checkbox-card">
+          <input type="checkbox" name="topic-choice" value="current" checked>
+          <div class="topic-info">
+            <span class="topic-name">📰 Current Events &amp; World</span>
+            <span class="topic-sub">Olympics, Mars missions, climate &amp; trends</span>
           </div>
         </label>
         <label class="topic-checkbox-card">
           <input type="checkbox" name="topic-choice" value="culture" checked>
           <div class="topic-info">
             <span class="topic-name">🎬 Culture &amp; Media</span>
-            <span class="topic-sub">Movies, music, superheroes &amp; pop culture</span>
+            <span class="topic-sub">Movies, music, superheroes &amp; streaming</span>
           </div>
         </label>
         <label class="topic-checkbox-card">
           <input type="checkbox" name="topic-choice" value="science" checked>
           <div class="topic-info">
-            <span class="topic-name">🔬 Science &amp; Nature</span>
-            <span class="topic-sub">Animals, space, planets &amp; biology</span>
+            <span class="topic-name">🔬 Science &amp; Physics</span>
+            <span class="topic-sub">Planets, energy, anatomy &amp; SI units</span>
           </div>
         </label>
         <label class="topic-checkbox-card">
           <input type="checkbox" name="topic-choice" value="history" checked>
           <div class="topic-info">
-            <span class="topic-name">📜 History</span>
-            <span class="topic-sub">Ancient wonders, inventions &amp; world events</span>
+            <span class="topic-name">📜 History &amp; Heritage</span>
+            <span class="topic-sub">Ancient wonders, inventions &amp; treaties</span>
           </div>
         </label>
         <label class="topic-checkbox-card">

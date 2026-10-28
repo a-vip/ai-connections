@@ -438,8 +438,13 @@ body.embedded {
 }
 
 /* ==========================================================================
-   3D SPATIAL ENGINE STYLES (HARDWARE-ACCELERATED CSS 3D TRANSFORMS)
+   3D SPATIAL ENGINE STYLES (HARDWARE-ACCELERATED VOLUMETRIC CSS 3D)
    ========================================================================== */
+
+:root {
+  --slab-thickness: 14px;
+  --slab-half-thick: 7px;
+}
 
 .container-3d {
   position: relative;
@@ -456,24 +461,25 @@ body.embedded {
 .viewport-3d {
   position: relative;
   width: 100%;
-  min-height: 480px;
-  height: 520px;
+  min-height: 500px;
+  height: 540px;
   perspective: 1100px;
   perspective-origin: 50% 50%;
-  background: radial-gradient(circle at 50% 30%, rgba(30, 41, 59, 0.5) 0%, rgba(11, 15, 25, 0.95) 80%);
+  background: radial-gradient(circle at 50% 25%, #151d30 0%, #090d16 75%, #05070c 100%);
   border: 1px solid var(--border-card);
   border-radius: var(--radius-lg);
   overflow: hidden;
   user-select: none;
   touch-action: none;
-  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.6), 0 8px 30px rgba(0, 0, 0, 0.4);
+  box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.8), 0 10px 35px rgba(0, 0, 0, 0.45);
   display: flex;
   flex-direction: column;
 }
 
 @media (max-width: 480px) {
   .viewport-3d {
-    height: 460px;
+    min-height: 440px;
+    height: 480px;
   }
 }
 
@@ -562,8 +568,8 @@ body.embedded {
 
 .stage-3d {
   position: relative;
-  width: 440px;
-  height: 380px;
+  width: 480px;
+  height: 400px;
   transform-style: preserve-3d;
   transition: transform 0.05s linear;
   pointer-events: auto;
@@ -572,12 +578,88 @@ body.embedded {
 
 @media (max-width: 480px) {
   .stage-3d {
-    width: 320px;
-    height: 320px;
+    width: 330px;
+    height: 340px;
   }
 }
 
-/* 3D Layer Containers */
+/* 3D Holographic Pedestal / Ground Floor */
+.stage-floor-grid {
+  position: absolute;
+  width: 640px;
+  height: 640px;
+  top: 50%;
+  left: 50%;
+  margin-top: -320px;
+  margin-left: -320px;
+  transform: translateY(200px) rotateX(90deg);
+  transform-style: preserve-3d;
+  background-image: 
+    linear-gradient(to right, rgba(56, 189, 248, 0.12) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(56, 189, 248, 0.12) 1px, transparent 1px);
+  background-size: 36px 36px;
+  mask-image: radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0) 70%);
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0) 70%);
+  pointer-events: none;
+}
+
+.stage-floor-ring {
+  position: absolute;
+  width: 360px;
+  height: 360px;
+  top: 50%;
+  left: 50%;
+  margin-top: -180px;
+  margin-left: -180px;
+  border-radius: 50%;
+  border: 1px dashed rgba(56, 189, 248, 0.35);
+  box-shadow: 0 0 35px rgba(56, 189, 248, 0.18), inset 0 0 25px rgba(56, 189, 248, 0.12);
+  transform: translateY(198px) rotateX(90deg);
+  transform-style: preserve-3d;
+  pointer-events: none;
+}
+
+/* 3D Holographic Core (for Orbit mode) */
+.holo-core-3d {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  top: 50%;
+  left: 50%;
+  margin-top: -60px;
+  margin-left: -60px;
+  transform-style: preserve-3d;
+  pointer-events: none;
+}
+
+.core-beam {
+  position: absolute;
+  width: 2px;
+  height: 280px;
+  top: 50%;
+  left: 50%;
+  margin-top: -140px;
+  margin-left: -1px;
+  background: linear-gradient(to bottom, transparent, rgba(56, 189, 248, 0.8), transparent);
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.9);
+}
+
+.core-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.25);
+  transform: rotateX(90deg);
+  animation: pulseCoreRing 3s ease-in-out infinite alternate;
+}
+
+@keyframes pulseCoreRing {
+  0% { transform: rotateX(90deg) scale(0.85); opacity: 0.4; }
+  100% { transform: rotateX(90deg) scale(1.15); opacity: 0.9; }
+}
+
+/* 3D Layer Containers (Used for Cube faces) */
 .layer-3d {
   position: absolute;
   inset: 0;
@@ -594,36 +676,70 @@ body.embedded {
 
 .layer-badge-3d {
   position: absolute;
-  top: -24px;
-  left: 0;
+  left: 50%;
+  transform-origin: center center;
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   font-weight: 700;
   text-transform: uppercase;
-  padding: 2px 8px;
+  padding: 3px 12px;
   border-radius: var(--radius-sm);
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
   pointer-events: none;
-  transform: translateZ(10px);
+  white-space: nowrap;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 }
 .layer-badge-3d.deck-a {
-  background: rgba(56, 189, 248, 0.2);
+  background: rgba(56, 189, 248, 0.25);
   color: #38bdf8;
-  border: 1px solid rgba(56, 189, 248, 0.4);
+  border: 1px solid rgba(56, 189, 248, 0.5);
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
 }
 .layer-badge-3d.deck-b {
-  background: rgba(139, 92, 246, 0.2);
+  background: rgba(168, 85, 247, 0.25);
   color: #c084fc;
-  border: 1px solid rgba(139, 92, 246, 0.4);
+  border: 1px solid rgba(168, 85, 247, 0.5);
+  box-shadow: 0 0 15px rgba(168, 85, 247, 0.3);
 }
 
-/* 3D Tile Card */
-.tile-3d {
-  position: relative;
-  background: rgba(30, 41, 59, 0.85);
-  color: var(--text-primary);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: var(--radius-md);
+/* ==========================================================================
+   VOLUMETRIC 3D TILE SLAB (DOUBLE-SIDED UNREVERSED TEXT + 14PX EXTRUSION)
+   ========================================================================== */
+
+.tile-3d-box {
+  position: absolute;
+  width: 98px;
+  height: 64px;
+  left: calc(50% - 49px);
+  top: calc(50% - 32px);
+  transform-style: preserve-3d;
+  cursor: pointer;
+  user-select: none;
+  pointer-events: auto;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (max-width: 480px) {
+  .tile-3d-box {
+    width: 82px;
+    height: 56px;
+    left: calc(50% - 41px);
+    top: calc(50% - 28px);
+  }
+}
+
+.slab-3d {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease;
+}
+
+/* Faces of the 3D Slab */
+.slab-face {
+  position: absolute;
+  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -632,43 +748,196 @@ body.embedded {
   font-size: 0.78rem;
   line-height: 1.15;
   padding: 6px 8px;
-  cursor: pointer;
-  user-select: none;
-  pointer-events: auto;
-  transform-style: preserve-3d;
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, background 0.2s ease, border-color 0.2s ease;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.35);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  border-radius: var(--radius-md);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
   word-break: break-word;
+  overflow: hidden;
 }
 
-@media (max-width: 480px) {
-  .tile-3d {
-    font-size: 0.68rem;
-    padding: 4px;
-  }
+/* Front Face */
+.slab-front {
+  transform: translateZ(var(--slab-half-thick));
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.94) 0%, rgba(15, 23, 42, 0.96) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: var(--text-primary);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 
-.tile-3d:hover {
-  transform: translateZ(20px) scale(1.04);
-  background: rgba(45, 55, 72, 0.95);
-  border-color: rgba(56, 189, 248, 0.6);
-  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.5), 0 0 15px rgba(56, 189, 248, 0.3);
-  z-index: 10;
+/* Back Face (Intrinsic 180deg rotation so it is readable when viewed from behind!) */
+.slab-back {
+  transform: rotateY(180deg) translateZ(var(--slab-half-thick));
+  background: linear-gradient(135deg, rgba(22, 33, 54, 0.96) 0%, rgba(11, 18, 32, 0.98) 100%);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  color: var(--text-primary);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(56, 189, 248, 0.25);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 
-.tile-3d.selected {
-  background: #2563eb !important;
+.slab-reverse-pill {
+  position: absolute;
+  bottom: 3px;
+  right: 5px;
+  font-size: 0.52rem;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--accent-cyan);
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.slab-shine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.08), transparent);
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  pointer-events: none;
+}
+
+/* 3D Extruded Edges (Thickness) */
+.slab-edge {
+  position: absolute;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  pointer-events: none;
+}
+
+.slab-edge-top {
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--slab-thickness);
+  transform-origin: top center;
+  transform: rotateX(90deg) translateY(-50%);
+  background: linear-gradient(to top, rgba(56, 189, 248, 0.25), rgba(45, 58, 82, 0.95));
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
+  border-right: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.slab-edge-bottom {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--slab-thickness);
+  transform-origin: bottom center;
+  transform: rotateX(-90deg) translateY(50%);
+  background: linear-gradient(to bottom, rgba(15, 23, 42, 0.98), rgba(2, 6, 23, 0.99));
+}
+
+.slab-edge-left {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: var(--slab-thickness);
+  transform-origin: center left;
+  transform: rotateY(-90deg) translateX(-50%);
+  background: linear-gradient(to right, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.9));
+}
+
+.slab-edge-right {
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: var(--slab-thickness);
+  transform-origin: center right;
+  transform: rotateY(90deg) translateX(50%);
+  background: linear-gradient(to left, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.9));
+}
+
+/* Hover State */
+.tile-3d-box:hover .slab-3d {
+  transform: translateZ(16px) scale(1.05);
+}
+
+.tile-3d-box:hover .slab-front {
+  border-color: rgba(56, 189, 248, 0.85);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.5), 0 0 18px rgba(56, 189, 248, 0.4);
+}
+
+.tile-3d-box:hover .slab-back {
+  border-color: rgba(56, 189, 248, 0.85);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.5), 0 0 18px rgba(56, 189, 248, 0.4);
+}
+
+/* Selected State */
+.tile-3d-box.selected .slab-3d {
+  transform: translateZ(28px) scale(1.09) !important;
+}
+
+.tile-3d-box.selected .slab-front {
+  background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%) !important;
   color: #ffffff !important;
-  border-color: #38bdf8 !important;
-  box-shadow: 0 0 25px rgba(56, 189, 248, 0.9), 0 14px 28px rgba(0, 0, 0, 0.5) !important;
-  z-index: 30;
-  outline: 2px solid #38bdf8;
+  border-color: #60a5fa !important;
+  box-shadow: 0 0 25px rgba(59, 130, 246, 0.85), 0 14px 28px rgba(0, 0, 0, 0.6) !important;
+  outline: 2px solid #60a5fa;
 }
 
-.layer-3d .tile-3d.selected {
-  transform: translateZ(28px) scale(1.08) !important;
+.tile-3d-box.selected .slab-back {
+  background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%) !important;
+  color: #ffffff !important;
+  border-color: #60a5fa !important;
+  box-shadow: 0 0 25px rgba(59, 130, 246, 0.85), 0 14px 28px rgba(0, 0, 0, 0.6) !important;
+  outline: 2px solid #60a5fa;
+}
+
+.tile-3d-box.selected .slab-edge-top {
+  background: #3b82f6 !important;
+}
+
+.tile-3d-box.selected .slab-edge-left,
+.tile-3d-box.selected .slab-edge-right {
+  background: #1d4ed8 !important;
+}
+
+/* Light Theme Overrides for 3D Elements */
+html[data-theme='light'] .viewport-3d {
+  background: radial-gradient(circle at 50% 25%, #f1f5f9 0%, #e2e8f0 75%, #cbd5e1 100%);
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.08), 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+html[data-theme='light'] .stage-floor-grid {
+  background-image: 
+    linear-gradient(to right, rgba(14, 165, 233, 0.15) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(14, 165, 233, 0.15) 1px, transparent 1px);
+}
+
+html[data-theme='light'] .stage-floor-ring {
+  border-color: rgba(14, 165, 233, 0.4);
+  box-shadow: 0 0 30px rgba(14, 165, 233, 0.15), inset 0 0 20px rgba(14, 165, 233, 0.1);
+}
+
+html[data-theme='light'] .slab-front {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.96) 0%, rgba(241, 245, 249, 0.98) 100%);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  color: #0f172a;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+html[data-theme='light'] .slab-back {
+  background: linear-gradient(135deg, rgba(248, 250, 252, 0.96) 0%, rgba(226, 232, 240, 0.98) 100%);
+  border: 1px solid rgba(14, 165, 233, 0.4);
+  color: #0f172a;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+html[data-theme='light'] .slab-edge-top {
+  background: linear-gradient(to top, rgba(14, 165, 233, 0.25), rgba(226, 232, 240, 0.95));
+}
+
+html[data-theme='light'] .slab-edge-bottom {
+  background: linear-gradient(to bottom, #94a3b8, #64748b);
+}
+
+html[data-theme='light'] .slab-edge-left,
+html[data-theme='light'] .slab-edge-right {
+  background: linear-gradient(to right, #cbd5e1, #94a3b8);
 }
 
 /* 3D Hint overlay */

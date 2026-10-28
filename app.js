@@ -3993,6 +3993,14 @@ class ConnectionsGame {
       b.classList.toggle('active', b.getAttribute('data-dim') === dim);
     });
 
+    const dimNames = {
+      '16': 'Curved Matrix (16)',
+      '32': 'Terraced Stadium (32)',
+      'cylinder': 'Orbit Carousel',
+      'cube': 'Voxel Monolith',
+      'helix': 'DNA Double Helix'
+    };
+
     if (dim === '32') {
       this.lastStandardPuzzleIndex = this.puzzleIndex;
       const puzzle32 = this.synthesize32TilePuzzle();
@@ -4000,7 +4008,7 @@ class ConnectionsGame {
       this.isCustom = true;
       this.maxMistakes = 6;
       this.startPuzzle(0);
-      this.showToast('Loaded 32-Tile Bi-Layer Challenge! (8 Groups) 🌟');
+      this.showToast('Loaded 32-Tile Terraced Stadium (8 Groups)! 🌟');
     } else {
       if (this.currentPuzzle && this.currentPuzzle.categories.length > 4) {
         this.maxMistakes = 4;
@@ -4008,7 +4016,7 @@ class ConnectionsGame {
         this.startPuzzle(this.lastStandardPuzzleIndex || 0);
       }
       this.render3DStage();
-      this.showToast(`Switched to 3D ${dim.toUpperCase()} view`);
+      this.showToast(`Switched to 3D ${dimNames[dim] || dim.toUpperCase()}`);
     }
   }
 
@@ -4064,62 +4072,105 @@ class ConnectionsGame {
     if (!this.dom.stage3D) return;
     this.dom.stage3D.innerHTML = '';
 
+    // 1. Add 3D Cyber Horizon Floor Pedestal and Ambient Ring
+    const floorGrid = document.createElement('div');
+    floorGrid.className = 'stage-floor-grid';
+    this.dom.stage3D.appendChild(floorGrid);
+
+    const floorRing = document.createElement('div');
+    floorRing.className = 'stage-floor-ring';
+    this.dom.stage3D.appendChild(floorRing);
+
     const tiles = this.remainingTiles;
+    const depthFactor = this.depth3D / 100;
 
     if (this.dim3D === '32') {
-      // Bi-Layer 4x4x2 Matrix
+      // --- 3D Terraced Dual Stadium (Deck Alpha Upper + Deck Beta Lower) ---
       const half = Math.ceil(tiles.length / 2);
       const deckA = tiles.slice(0, half);
       const deckB = tiles.slice(half);
 
-      const layerA = document.createElement('div');
-      layerA.className = 'layer-3d grid-4x4';
-      layerA.style.transform = `translateZ(${this.depth3D / 2}px)`;
-      
+      // Deck Alpha Header Badge
       const badgeA = document.createElement('div');
       badgeA.className = 'layer-badge-3d deck-a';
-      badgeA.textContent = 'Deck Alpha (Upper)';
-      layerA.appendChild(badgeA);
+      badgeA.textContent = 'Deck Alpha (Upper Stadium)';
+      badgeA.style.transform = `translate3d(0px, -185px, ${-55 * depthFactor}px) rotateX(12deg)`;
+      this.dom.stage3D.appendChild(badgeA);
 
-      deckA.forEach(tileObj => {
-        layerA.appendChild(this.create3DTileElement(tileObj));
+      // Deck Alpha Tiles: 4x4 curved stadium tier (Upper, pushed back and tilted forward)
+      deckA.forEach((tileObj, i) => {
+        const r = Math.floor(i / 4);
+        const c = i % 4;
+        const xOffset = (c - 1.5) * 104;
+        const yOffset = -150 + (r * 68);
+        const rotY = (c - 1.5) * 8;
+        const rotX = 14 + (1.5 - r) * 3;
+        const zOffset = -50 * depthFactor + Math.abs(c - 1.5) * 12;
+
+        const tileEl = this.create3DTileElement(tileObj);
+        tileEl.style.transform = `translate3d(${xOffset}px, ${yOffset}px, ${zOffset}px) rotateY(${rotY}deg) rotateX(${rotX}deg)`;
+        this.dom.stage3D.appendChild(tileEl);
       });
 
-      const layerB = document.createElement('div');
-      layerB.className = 'layer-3d grid-4x4';
-      layerB.style.transform = `translateZ(-${this.depth3D / 2}px)`;
-      
+      // Deck Beta Header Badge
       const badgeB = document.createElement('div');
       badgeB.className = 'layer-badge-3d deck-b';
-      badgeB.textContent = 'Deck Beta (Lower)';
-      layerB.appendChild(badgeB);
+      badgeB.textContent = 'Deck Beta (Lower Stadium)';
+      badgeB.style.transform = `translate3d(0px, 35px, ${50 * depthFactor}px) rotateX(-6deg)`;
+      this.dom.stage3D.appendChild(badgeB);
 
-      deckB.forEach(tileObj => {
-        layerB.appendChild(this.create3DTileElement(tileObj));
+      // Deck Beta Tiles: 4x4 curved stadium tier (Lower, stepped forward and tilted back)
+      deckB.forEach((tileObj, i) => {
+        const r = Math.floor(i / 4);
+        const c = i % 4;
+        const xOffset = (c - 1.5) * 104;
+        const yOffset = 70 + (r * 68);
+        const rotY = (c - 1.5) * 8;
+        const rotX = -6 + (1.5 - r) * 3;
+        const zOffset = 50 * depthFactor + Math.abs(c - 1.5) * 12;
+
+        const tileEl = this.create3DTileElement(tileObj);
+        tileEl.style.transform = `translate3d(${xOffset}px, ${yOffset}px, ${zOffset}px) rotateY(${rotY}deg) rotateX(${rotX}deg)`;
+        this.dom.stage3D.appendChild(tileEl);
       });
 
-      this.dom.stage3D.appendChild(layerA);
-      this.dom.stage3D.appendChild(layerB);
     } else if (this.dim3D === 'cylinder') {
-      // 3D Orbital Cylindrical Ring
-      const radius = 180 + (this.depth3D * 0.8);
+      // --- 3D Orbital Cylindrical Carousel ---
+      // Glowing central holographic emitter core
+      const core = document.createElement('div');
+      core.className = 'holo-core-3d';
+      core.innerHTML = `
+        <div class="core-beam"></div>
+        <div class="core-ring"></div>
+      `;
+      this.dom.stage3D.appendChild(core);
+
+      const radius = 210 + (this.depth3D * 0.7);
       const total = tiles.length;
-      const angleStep = 360 / Math.max(total, 1);
+
+      // Distribute in 2 stacked rings if total > 12
+      const isDualRing = total > 12;
+      const ringSize = isDualRing ? Math.ceil(total / 2) : total;
+      const angleStep = 360 / Math.max(ringSize, 1);
 
       tiles.forEach((tileObj, i) => {
-        const angle = i * angleStep;
-        const tile = this.create3DTileElement(tileObj);
-        tile.style.position = 'absolute';
-        tile.style.width = '100px';
-        tile.style.height = '60px';
-        tile.style.left = 'calc(50% - 50px)';
-        tile.style.top = 'calc(50% - 30px)';
-        tile.style.transform = `rotateY(${angle}deg) translateZ(${radius}px)`;
-        this.dom.stage3D.appendChild(tile);
+        let ringIdx = 0;
+        let posInRing = i;
+        if (isDualRing) {
+          ringIdx = i < ringSize ? 0 : 1;
+          posInRing = i % ringSize;
+        }
+
+        const angle = posInRing * angleStep + (ringIdx * (angleStep / 2));
+        const yOffset = isDualRing ? (ringIdx === 0 ? -48 : 48) : 0;
+        const tileEl = this.create3DTileElement(tileObj);
+        tileEl.style.transform = `rotateY(${angle}deg) translateZ(${radius}px) translateY(${yOffset}px)`;
+        this.dom.stage3D.appendChild(tileEl);
       });
+
     } else if (this.dim3D === 'cube') {
-      // 3D Cube (4 faces around Y)
-      const sideDistance = 100 + (this.depth3D * 0.6);
+      // --- 3D Voxel Monolith Cube ---
+      const sideDistance = 140 + (this.depth3D * 0.55);
       const faces = [[], [], [], []]; // Front (0), Right (90), Back (180), Left (270)
       tiles.forEach((t, i) => faces[i % 4].push(t));
 
@@ -4136,56 +4187,109 @@ class ConnectionsGame {
         faceDiv.style.transform = `rotateY(${faceAngles[fIdx]}deg) translateZ(${sideDistance}px)`;
 
         faceTiles.forEach(tObj => {
-          faceDiv.appendChild(this.create3DTileElement(tObj));
+          const tileEl = this.create3DTileElement(tObj);
+          tileEl.style.position = 'relative';
+          tileEl.style.left = 'auto';
+          tileEl.style.top = 'auto';
+          tileEl.style.width = '100%';
+          tileEl.style.height = '100%';
+          faceDiv.appendChild(tileEl);
         });
         this.dom.stage3D.appendChild(faceDiv);
       });
-    } else {
-      // Default 4x4 Planar Deck with 3D elevation
-      const layer = document.createElement('div');
-      layer.className = 'layer-3d grid-4x4';
-      layer.style.transform = `translateZ(${this.depth3D * 0.15}px)`;
 
-      tiles.forEach(tileObj => {
-        layer.appendChild(this.create3DTileElement(tileObj));
+    } else if (this.dim3D === 'helix') {
+      // --- 3D DNA Double Helix Strand ---
+      const radius = 175 + (this.depth3D * 0.45);
+      const total = tiles.length;
+      const angleStep = 38;
+      const yStep = 22;
+      const yStart = -((total - 1) * yStep) / 2;
+
+      tiles.forEach((tileObj, i) => {
+        const angle = i * angleStep;
+        const rad = angle * Math.PI / 180;
+        const x = Math.sin(rad) * radius;
+        const z = Math.cos(rad) * radius;
+        const y = yStart + (i * yStep);
+        const rotY = angle;
+
+        const tileEl = this.create3DTileElement(tileObj);
+        tileEl.style.transform = `translate3d(${x}px, ${y}px, ${z}px) rotateY(${rotY}deg)`;
+        this.dom.stage3D.appendChild(tileEl);
       });
-      this.dom.stage3D.appendChild(layer);
+
+    } else {
+      // --- Default 16 Tiles: 3D Curved Hologram Command Matrix ---
+      tiles.forEach((tileObj, i) => {
+        const r = Math.floor(i / 4);
+        const c = i % 4;
+        const xOffset = (c - 1.5) * 106;
+        const yOffset = (r - 1.5) * 76;
+        const rotY = (c - 1.5) * 8;
+        const rotX = (1.5 - r) * 6;
+        const zOffset = (Math.abs(c - 1.5) * 16 + Math.abs(r - 1.5) * 10) * depthFactor;
+
+        const tileEl = this.create3DTileElement(tileObj);
+        tileEl.style.transform = `translate3d(${xOffset}px, ${yOffset}px, ${zOffset}px) rotateY(${rotY}deg) rotateX(${rotX}deg)`;
+        this.dom.stage3D.appendChild(tileEl);
+      });
     }
 
     this.update3DTransform();
   }
 
   create3DTileElement(tileObj) {
-    const tile = document.createElement('div');
-    tile.className = 'tile-3d';
-    tile.textContent = tileObj.text;
-    tile.setAttribute('role', 'checkbox');
-    tile.setAttribute('aria-checked', this.selectedTiles.has(tileObj.text) ? 'true' : 'false');
-    tile.setAttribute('tabindex', '0');
-
-    if (tileObj.text.length > 22) {
-      tile.style.fontSize = '0.62rem';
-    } else if (tileObj.text.length > 14) {
-      tile.style.fontSize = '0.7rem';
-    }
+    const box = document.createElement('div');
+    box.className = 'tile-3d-box';
+    box.setAttribute('role', 'checkbox');
+    box.setAttribute('aria-checked', this.selectedTiles.has(tileObj.text) ? 'true' : 'false');
+    box.setAttribute('tabindex', '0');
+    box.setAttribute('data-text', tileObj.text);
 
     if (this.selectedTiles.has(tileObj.text)) {
-      tile.classList.add('selected');
+      box.classList.add('selected');
     }
 
-    tile.addEventListener('click', (e) => {
+    let fontSizeStyle = '';
+    if (tileObj.text.length > 22) {
+      fontSizeStyle = 'font-size: 0.62rem;';
+    } else if (tileObj.text.length > 14) {
+      fontSizeStyle = 'font-size: 0.70rem;';
+    }
+
+    // Volumetric 3D slab: Front face + Back face (180deg intrinsic rotation prevents reversed letters) + 4 extruded side edges
+    box.innerHTML = `
+      <div class="slab-3d">
+        <div class="slab-face slab-front" style="${fontSizeStyle}">
+          <span class="slab-text">${tileObj.text}</span>
+          <div class="slab-shine"></div>
+        </div>
+        <div class="slab-face slab-back" style="${fontSizeStyle}">
+          <span class="slab-text">${tileObj.text}</span>
+          <div class="slab-shine"></div>
+          <span class="slab-reverse-pill">3D</span>
+        </div>
+        <div class="slab-edge slab-edge-top"></div>
+        <div class="slab-edge slab-edge-bottom"></div>
+        <div class="slab-edge slab-edge-left"></div>
+        <div class="slab-edge slab-edge-right"></div>
+      </div>
+    `;
+
+    box.addEventListener('click', (e) => {
       e.stopPropagation();
-      this.handleTileClick(tileObj.text, tile);
+      this.handleTileClick(tileObj.text, box);
     });
 
-    tile.addEventListener('keydown', (e) => {
+    box.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
-        this.handleTileClick(tileObj.text, tile);
+        this.handleTileClick(tileObj.text, box);
       }
     });
 
-    return tile;
+    return box;
   }
 
   setCameraPreset(rotX, rotY, zoom = 0) {

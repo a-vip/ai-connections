@@ -83,3 +83,4 @@ Place the folder in `avi-wp-theme/apps/connections` to serve it under your main 
 - **Local Storage Isolation:** Game progress, streaks, and preferences are stored under namespaced keys (`ai_connections_*`).
 - **Web Audio API:** All haptic feedback and chimes are polyphonically synthesized at runtime with zero external audio MP3/WAV assets to load.
 - **CSP Compliant:** Works cleanly under strict Content Security Policies with `clipboard-write` permissions for sharing results.
+

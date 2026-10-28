@@ -2,16 +2,12 @@
  * AI CONNECTIONS - Curated Puzzle Archive
  * Author: Avi Perera (aviperera.com)
  * Domain: AI Governance, International Law, Frontier Models, Autonomous Systems & Tech Policy
- *
- * Difficulty Gradient:
- * 🟨 Yellow: Straightforward / Direct Taxonomy
- * 🟩 Green: Intermediate / Technical & Operational
- * 🟦 Blue: Advanced / Legal Treaties, Statutes & Regulatory Precedents
- * 🟪 Purple: Tricky / Lateral, Linguistic, or Meta-Connections
  */
 
-// Universal Module Definition for zero-friction local execution (file://) and bundlers/servers
-const PUZZLES = [
+(function () {
+  'use strict';
+
+  const PUZZLES = [
   {
     id: 1,
     title: "The Brussels Effect & Beyond",
@@ -974,9 +970,10 @@ const PUZZLES = [
   }
 ];
 
-if (typeof window !== 'undefined') {
-  window.AI_PUZZLES = PUZZLES;
-}
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { PUZZLES };
-}
+  if (typeof window !== 'undefined') {
+    window.AI_PUZZLES = PUZZLES;
+  }
+  if (typeof module !== 'undefined' && module.exports) {
+    module.exports = { PUZZLES };
+  }
+})();

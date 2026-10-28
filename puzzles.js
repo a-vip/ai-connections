@@ -1311,7 +1311,7 @@
     "title": "Autonomous Weapons & Warfare",
     "topic": "law",
     "audience": "Specialist",
-    "difficulty": "Advanced",
+    "difficulty": "Expert",
     "tags": [
       "LAWS",
       "IHL",
@@ -1386,7 +1386,7 @@
     "title": "Copyright, Code & Courts",
     "topic": "law",
     "audience": "Specialist",
-    "difficulty": "Advanced",
+    "difficulty": "Expert",
     "tags": [
       "Law",
       "Copyright",
@@ -1611,7 +1611,7 @@
     "title": "Global AI Governance & Treaties",
     "topic": "ir",
     "audience": "Specialist",
-    "difficulty": "Advanced",
+    "difficulty": "Grandmaster",
     "tags": [
       "International Law",
       "Treaties",

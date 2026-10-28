@@ -259,8 +259,54 @@ body.embedded {
 
 .difficulty-pill.Beginner { color: #10b981; }
 .difficulty-pill.Intermediate { color: #f59e0b; }
+.difficulty-pill.Expert { color: #ef4444; border-color: rgba(239, 68, 68, 0.4); }
 .difficulty-pill.Advanced { color: #3b82f6; }
-.difficulty-pill.Grandmaster { color: #c084fc; }
+.difficulty-pill.Grandmaster { color: #c084fc; border-color: rgba(192, 132, 252, 0.5); }
+
+/* Difficulty Mode Bar */
+.difficulty-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding: 4px 0 2px 0;
+}
+
+.diff-bar-label {
+  font-size: 0.72rem;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--accent-cyan);
+  letter-spacing: 0.05em;
+}
+
+.diff-btn {
+  font-size: 0.74rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.diff-btn:hover {
+  background: var(--bg-tile-hover);
+  color: var(--text-primary);
+  border-color: var(--accent-cyan);
+}
+
+.diff-btn.active {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font-weight: 700;
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 10px var(--accent-glow);
+}
 
 /* Audience Pills */
 .audience-pill {
@@ -391,18 +437,67 @@ body.embedded {
   margin-top: 2px;
 }
 
-/* Mode Switcher Tabs (2D vs 3D) */
+/* Mode Switcher Tabs (2D vs 3D) & Tile Count */
 .mode-tabs-container {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 100%;
+  margin: 0 auto 8px auto;
+  gap: 8px;
+}
+
+.mode-tabs-group {
+  display: flex;
+  align-items: center;
   background: var(--bg-elevated);
   padding: 3px;
   border-radius: var(--radius-full);
   border: 1px solid var(--border-subtle);
-  width: fit-content;
-  margin: 0 auto 6px auto;
   gap: 4px;
+}
+
+.tile-count-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--bg-elevated);
+  padding: 3px 6px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-subtle);
+}
+
+.tile-count-label {
+  font-size: 0.72rem;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--accent-cyan);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-right: 2px;
+}
+
+.tile-size-btn {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.tile-size-btn:hover {
+  color: var(--text-primary);
+}
+
+.tile-size-btn.active {
+  background: var(--accent-cyan);
+  color: #0b0f19;
+  font-weight: 700;
 }
 
 .mode-tab {
@@ -581,6 +676,11 @@ body.embedded {
     width: 330px;
     height: 340px;
   }
+}
+
+.stage-floor-grid.hidden,
+.stage-floor-ring.hidden {
+  display: none !important;
 }
 
 /* 3D Holographic Pedestal / Ground Floor */

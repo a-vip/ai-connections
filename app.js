@@ -3114,6 +3114,7 @@ class ConnectionsGame {
     this.submittedCombinations = new Set();
     this.gameOver = false;
     this.gameWon = false;
+    this.isFreePlay = false;
     this.isCustom = false;
 
     // 3D Spatial Engine State
@@ -3125,6 +3126,10 @@ class ConnectionsGame {
     this.isDragging3D = false;
     this.lastPointerPos = { x: 0, y: 0 };
     this.spinAnimFrame = null;
+    this.show3DFloor = true;
+    this.currentDifficulty = 'all';
+    this.currentTileSize = 16;
+    this.isFreePlay = false;
 
     // DOM Elements
     this.dom = {
@@ -3170,7 +3175,15 @@ class ConnectionsGame {
       btn3DFront: document.getElementById('btn-3d-front'),
       btn3DTop: document.getElementById('btn-3d-top'),
       btn3DSpin: document.getElementById('btn-3d-spin'),
-      btn3DReset: document.getElementById('btn-3d-reset')
+      btn3DReset: document.getElementById('btn-3d-reset'),
+      btn3DSide: document.getElementById('btn-3d-side'),
+      btn3DBottom: document.getElementById('btn-3d-bottom'),
+      btn3DZoomIn: document.getElementById('btn-3d-zoomin'),
+      btn3DZoomOut: document.getElementById('btn-3d-zoomout'),
+      btn3DFloor: document.getElementById('btn-3d-floor'),
+      btnPromptContinue: document.getElementById('btn-prompt-continue'),
+      btnPromptReveal: document.getElementById('btn-prompt-reveal'),
+      modalGameOverPrompt: document.getElementById('modal-gameover-prompt')
     };
 
     this.stats = this.loadStats();
@@ -3255,6 +3268,7 @@ class ConnectionsGame {
     this.submittedCombinations.clear();
     this.gameOver = false;
     this.gameWon = false;
+    this.isFreePlay = false;
 
     // Collect 16 items
     const allItems = [];
@@ -3320,6 +3334,16 @@ class ConnectionsGame {
 
   renderMistakes() {
     this.dom.mistakeDots.innerHTML = '';
+    if (this.isFreePlay) {
+      const badge = document.createElement('span');
+      badge.className = 'freeplay-badge';
+      badge.textContent = '♾️ Practice Mode (Unlimited Guesses)';
+      badge.style.fontSize = '0.78rem';
+      badge.style.fontWeight = '700';
+      badge.style.color = 'var(--accent-cyan)';
+      this.dom.mistakeDots.appendChild(badge);
+      return;
+    }
     for (let i = 0; i < this.maxMistakes; i++) {
       const dot = document.createElement('span');
       dot.className = i < this.mistakesRemaining ? 'dot' : 'dot lost';
@@ -3526,11 +3550,13 @@ class ConnectionsGame {
         }
       }
 
-      this.mistakesRemaining--;
-      this.renderMistakes();
+      if (!this.isFreePlay) {
+        this.mistakesRemaining--;
+        this.renderMistakes();
+      }
 
       // Animate shake on selected tiles in both 2D and 3D
-      const tileDoms = document.querySelectorAll('.tile.selected, .tile-3d.selected');
+      const tileDoms = document.querySelectorAll('.tile.selected, .tile-3d.selected, .tile-3d-box.selected');
       tileDoms.forEach(t => t.classList.add('shake'));
       setTimeout(() => tileDoms.forEach(t => t.classList.remove('shake')), 400);
 
@@ -3541,8 +3567,8 @@ class ConnectionsGame {
         this.sound.playWrong();
       }
 
-      if (this.mistakesRemaining <= 0) {
-        this.handleGameOver();
+      if (!this.isFreePlay && this.mistakesRemaining <= 0) {
+        this.openGameOverPrompt();
       }
     }
   }
@@ -3556,7 +3582,17 @@ class ConnectionsGame {
     setTimeout(() => this.openStatsModal(), 1200);
   }
 
-  handleGameOver() {
+  openGameOverPrompt() {
+    const modal = document.getElementById('modal-gameover-prompt');
+    if (modal) {
+      this.sound.playWrong();
+      this.openModal(modal);
+    } else {
+      this.revealSolutionAndEnd();
+    }
+  }
+
+  revealSolutionAndEnd() {
     this.gameOver = true;
     this.gameWon = false;
     this.showToast('Game over! Revealing remaining connections...');
@@ -3577,6 +3613,10 @@ class ConnectionsGame {
       this.notifyParentHeight();
       setTimeout(() => this.openStatsModal(), 1500);
     }, 1000);
+  }
+
+  handleGameOver() {
+    this.openGameOverPrompt();
   }
 
   openDossierModal(cat) {
@@ -3997,47 +4037,119 @@ class ConnectionsGame {
       '16': 'Curved Matrix (16)',
       '32': 'Terraced Stadium (32)',
       'cylinder': 'Orbit Carousel',
-      'cube': 'Voxel Monolith',
-      'helix': 'DNA Double Helix'
+      'cube16': 'Cube (16 Tiles)',
+      'cube24': 'Full 6-Face Cube (24 Tiles)',
+      'cube32': 'Grandmaster Cube (32 Tiles)',
+      'helix': 'DNA Double Helix',
+      'sphere': 'Spherical Geodesic'
     };
 
-    if (dim === '32') {
-      this.lastStandardPuzzleIndex = this.puzzleIndex;
-      const puzzle32 = this.synthesize32TilePuzzle();
-      this.currentPuzzle = puzzle32;
-      this.isCustom = true;
-      this.maxMistakes = 6;
-      this.startPuzzle(0);
-      this.showToast('Loaded 32-Tile Terraced Stadium (8 Groups)! 🌟');
-    } else {
-      if (this.currentPuzzle && this.currentPuzzle.categories.length > 4) {
-        this.maxMistakes = 4;
-        this.isCustom = false;
-        this.startPuzzle(this.lastStandardPuzzleIndex || 0);
+    if (dim === 'cube24') {
+      if (!this.currentPuzzle || this.currentPuzzle.categories.length !== 6) {
+        this.setTileSize(24);
+        return;
       }
-      this.render3DStage();
-      this.showToast(`Switched to 3D ${dimNames[dim] || dim.toUpperCase()}`);
+    } else if (dim === 'cube32' || dim === '32') {
+      if (!this.currentPuzzle || this.currentPuzzle.categories.length !== 8) {
+        this.setTileSize(32);
+        return;
+      }
+    } else if (dim === 'cube16' || dim === '16') {
+      if (this.currentPuzzle && this.currentPuzzle.categories.length > 4) {
+        this.setTileSize(16);
+        return;
+      }
+    }
+
+    this.render3DStage();
+    this.showToast(`Switched to 3D ${dimNames[dim] || dim.toUpperCase()}`);
+  }
+
+  setTileSize(size) {
+    this.currentTileSize = size;
+    document.querySelectorAll('.tile-size-btn[data-size]').forEach(b => {
+      b.classList.toggle('active', parseInt(b.getAttribute('data-size'), 10) === size);
+    });
+
+    // Update 2D grid container class for layout
+    if (this.dom.grid) {
+      this.dom.grid.classList.remove('grid-20', 'grid-24', 'grid-32');
+      if (size > 16) {
+        this.dom.grid.classList.add(`grid-${size}`);
+      }
+    }
+
+    // Set mistakes for this size
+    if (size === 32) {
+      this.maxMistakes = 6;
+    } else if (size === 24) {
+      this.maxMistakes = 5;
+    } else if (size === 20) {
+      this.maxMistakes = 5;
+    } else {
+      this.maxMistakes = (this.currentDifficulty === 'Beginner' ? 5 : (this.currentDifficulty === 'Grandmaster' ? 3 : 4));
+    }
+
+    const puzzle = this.synthesizeSizedPuzzle(size, this.currentDifficulty === 'all' ? 'Intermediate' : this.currentDifficulty);
+    this.currentPuzzle = puzzle;
+    this.isCustom = true;
+    this.startPuzzle(0);
+    this.showToast(`Loaded ${size}-Tile Challenge (${size / 4} Groups)! 🌟`);
+  }
+
+  setDifficulty(diff) {
+    this.currentDifficulty = diff;
+    document.querySelectorAll('#difficulty-bar .diff-btn').forEach(b => {
+      b.classList.toggle('active', b.getAttribute('data-diff') === diff);
+    });
+
+    if (diff === 'all') {
+      this.isCustom = false;
+      this.startPuzzle(0);
+      return;
+    }
+
+    // Try finding a curated puzzle with this difficulty
+    const foundIdx = PUZZLES.findIndex(p => p.difficulty && p.difficulty.toLowerCase() === diff.toLowerCase());
+    if (foundIdx !== -1) {
+      this.isCustom = false;
+      if (diff === 'Beginner') this.maxMistakes = 5;
+      else if (diff === 'Grandmaster') this.maxMistakes = 3;
+      else this.maxMistakes = 4;
+      this.startPuzzle(foundIdx);
+      this.showToast(`Switched to ${diff} mode!`);
+    } else {
+      // Synthesize one
+      const puzzle = this.synthesizeSizedPuzzle(this.currentTileSize || 16, diff);
+      this.currentPuzzle = puzzle;
+      this.isCustom = true;
+      if (diff === 'Beginner') this.maxMistakes = 5;
+      else if (diff === 'Grandmaster') this.maxMistakes = 3;
+      else this.maxMistakes = 4;
+      this.startPuzzle(0);
+      this.showToast(`Generated dynamic ${diff} challenge!`);
     }
   }
 
-  synthesize32TilePuzzle() {
-    const yPool = CATEGORY_BANK.filter(c => c.color === 'yellow');
-    const gPool = CATEGORY_BANK.filter(c => c.color === 'green');
-    const bPool = CATEGORY_BANK.filter(c => c.color === 'blue');
-    const pPool = CATEGORY_BANK.filter(c => c.color === 'purple');
+  synthesizeSizedPuzzle(count = 16, difficulty = 'Intermediate') {
+    const numCats = count / 4;
+    let pool = CATEGORY_BANK;
+    if (difficulty === 'Beginner') {
+      pool = CATEGORY_BANK.filter(c => c.color === 'yellow' || c.color === 'green');
+      if (pool.length < numCats) pool = CATEGORY_BANK;
+    } else if (difficulty === 'Expert' || difficulty === 'Advanced') {
+      pool = CATEGORY_BANK.filter(c => c.color === 'blue' || c.color === 'purple');
+      if (pool.length < numCats) pool = CATEGORY_BANK;
+    }
 
-    for (let attempt = 0; attempt < 50; attempt++) {
-      const pickY = this.shuffleArray(yPool).slice(0, 2);
-      const pickG = this.shuffleArray(gPool).slice(0, 2);
-      const pickB = this.shuffleArray(bPool).slice(0, 2);
-      const pickP = this.shuffleArray(pPool).slice(0, 2);
-
-      const allCats = [...pickY, ...pickG, ...pickB, ...pickP];
-      if (allCats.length !== 8) continue;
+    for (let attempt = 0; attempt < 80; attempt++) {
+      const shuffled = this.shuffleArray([...pool]);
+      const picked = shuffled.slice(0, numCats);
+      if (picked.length !== numCats) continue;
 
       const words = new Set();
       let hasCollision = false;
-      allCats.forEach(c => {
+      picked.forEach(c => {
         c.items.forEach(item => {
           const up = item.toUpperCase();
           if (words.has(up)) hasCollision = true;
@@ -4045,27 +4157,54 @@ class ConnectionsGame {
         });
       });
 
-      if (!hasCollision && words.size === 32) {
+      if (!hasCollision && words.size === count) {
         return {
-          id: '3D-DUAL-DECK',
-          title: '3D Dual-Layer Matrix (32 Tiles / 8 Groups)',
+          id: `SIZED-${count}`,
+          title: `${count}-Tile ${difficulty} Challenge`,
           topic: 'mixed',
-          audience: 'Everyone',
-          difficulty: 'Grandmaster',
-          categories: JSON.parse(JSON.stringify(allCats))
+          audience: difficulty === 'Grandmaster' ? 'Specialist' : 'Everyone',
+          difficulty: difficulty,
+          categories: JSON.parse(JSON.stringify(picked))
         };
       }
     }
 
-    // Fallback: return 8 categories from puzzle collection
+    // Fallback: slice from existing categories
+    const fallbackCats = [];
+    for (const p of PUZZLES) {
+      for (const cat of p.categories) {
+        if (!fallbackCats.some(c => c.name === cat.name)) {
+          fallbackCats.push(cat);
+          if (fallbackCats.length === numCats) break;
+        }
+      }
+      if (fallbackCats.length === numCats) break;
+    }
+
     return {
-      id: '3D-DUAL-DECK',
-      title: '3D Dual-Layer Matrix',
+      id: `SIZED-${count}`,
+      title: `${count}-Tile ${difficulty} Challenge`,
       topic: 'mixed',
       audience: 'Everyone',
-      difficulty: 'Grandmaster',
-      categories: [...PUZZLES[0].categories, ...PUZZLES[1].categories]
+      difficulty: difficulty,
+      categories: fallbackCats
     };
+  }
+
+  synthesize32TilePuzzle() {
+    return this.synthesizeSizedPuzzle(32, 'Grandmaster');
+  }
+
+  toggle3DFloor() {
+    this.show3DFloor = !this.show3DFloor;
+    if (this.dom.btn3DFloor) {
+      this.dom.btn3DFloor.classList.toggle('active', this.show3DFloor);
+    }
+    const grid = this.dom.stage3D ? this.dom.stage3D.querySelector('.stage-floor-grid') : null;
+    const ring = this.dom.stage3D ? this.dom.stage3D.querySelector('.stage-floor-ring') : null;
+    if (grid) grid.classList.toggle('hidden', !this.show3DFloor);
+    if (ring) ring.classList.toggle('hidden', !this.show3DFloor);
+    this.showToast(this.show3DFloor ? 'Floor Pedestal: ON 🌐' : 'Floor Pedestal: OFF 🌌');
   }
 
   render3DStage() {
@@ -4074,11 +4213,11 @@ class ConnectionsGame {
 
     // 1. Add 3D Cyber Horizon Floor Pedestal and Ambient Ring
     const floorGrid = document.createElement('div');
-    floorGrid.className = 'stage-floor-grid';
+    floorGrid.className = 'stage-floor-grid' + (this.show3DFloor ? '' : ' hidden');
     this.dom.stage3D.appendChild(floorGrid);
 
     const floorRing = document.createElement('div');
-    floorRing.className = 'stage-floor-ring';
+    floorRing.className = 'stage-floor-ring' + (this.show3DFloor ? '' : ' hidden');
     this.dom.stage3D.appendChild(floorRing);
 
     const tiles = this.remainingTiles;
@@ -4097,7 +4236,6 @@ class ConnectionsGame {
       badgeA.style.transform = `translate3d(0px, -185px, ${-55 * depthFactor}px) rotateX(12deg)`;
       this.dom.stage3D.appendChild(badgeA);
 
-      // Deck Alpha Tiles: 4x4 curved stadium tier (Upper, pushed back and tilted forward)
       deckA.forEach((tileObj, i) => {
         const r = Math.floor(i / 4);
         const c = i % 4;
@@ -4119,7 +4257,6 @@ class ConnectionsGame {
       badgeB.style.transform = `translate3d(0px, 35px, ${50 * depthFactor}px) rotateX(-6deg)`;
       this.dom.stage3D.appendChild(badgeB);
 
-      // Deck Beta Tiles: 4x4 curved stadium tier (Lower, stepped forward and tilted back)
       deckB.forEach((tileObj, i) => {
         const r = Math.floor(i / 4);
         const c = i % 4;
@@ -4136,7 +4273,6 @@ class ConnectionsGame {
 
     } else if (this.dim3D === 'cylinder') {
       // --- 3D Orbital Cylindrical Carousel ---
-      // Glowing central holographic emitter core
       const core = document.createElement('div');
       core.className = 'holo-core-3d';
       core.innerHTML = `
@@ -4147,8 +4283,6 @@ class ConnectionsGame {
 
       const radius = 210 + (this.depth3D * 0.7);
       const total = tiles.length;
-
-      // Distribute in 2 stacked rings if total > 12
       const isDualRing = total > 12;
       const ringSize = isDualRing ? Math.ceil(total / 2) : total;
       const angleStep = 360 / Math.max(ringSize, 1);
@@ -4168,10 +4302,78 @@ class ConnectionsGame {
         this.dom.stage3D.appendChild(tileEl);
       });
 
-    } else if (this.dim3D === 'cube') {
-      // --- 3D Voxel Monolith Cube ---
+    } else if (this.dim3D === 'cube24') {
+      // --- Full 6-Face 3D Hexahedron Cube (24 Tiles: Front, Right, Back, Left, Top, Bottom) ---
+      const sideDistance = 145 + (this.depth3D * 0.55);
+      const faces = [[], [], [], [], [], []];
+      tiles.forEach((t, i) => faces[i % 6].push(t));
+
+      const faceTransforms = [
+        `rotateY(0deg) translateZ(${sideDistance}px)`,
+        `rotateY(90deg) translateZ(${sideDistance}px)`,
+        `rotateY(180deg) translateZ(${sideDistance}px)`,
+        `rotateY(270deg) translateZ(${sideDistance}px)`,
+        `rotateX(90deg) translateZ(${sideDistance}px)`,
+        `rotateX(-90deg) translateZ(${sideDistance}px)`
+      ];
+
+      faces.forEach((faceTiles, fIdx) => {
+        const faceDiv = document.createElement('div');
+        faceDiv.className = 'layer-3d';
+        faceDiv.style.width = '230px';
+        faceDiv.style.height = '230px';
+        faceDiv.style.left = 'calc(50% - 115px)';
+        faceDiv.style.top = 'calc(50% - 115px)';
+        faceDiv.style.gridTemplateColumns = 'repeat(2, 1fr)';
+        faceDiv.style.gridTemplateRows = 'repeat(2, 1fr)';
+        faceDiv.style.transform = faceTransforms[fIdx];
+
+        faceTiles.forEach(tObj => {
+          const tileEl = this.create3DTileElement(tObj);
+          tileEl.style.position = 'relative';
+          tileEl.style.left = 'auto';
+          tileEl.style.top = 'auto';
+          tileEl.style.width = '100%';
+          tileEl.style.height = '100%';
+          faceDiv.appendChild(tileEl);
+        });
+        this.dom.stage3D.appendChild(faceDiv);
+      });
+
+    } else if (this.dim3D === 'cube32') {
+      // --- 3D Grandmaster Cube (32 Tiles: 4 Faces x 8 Tiles) ---
+      const sideDistance = 160 + (this.depth3D * 0.6);
+      const faces = [[], [], [], []];
+      tiles.forEach((t, i) => faces[i % 4].push(t));
+
+      const faceAngles = [0, 90, 180, 270];
+      faces.forEach((faceTiles, fIdx) => {
+        const faceDiv = document.createElement('div');
+        faceDiv.className = 'layer-3d';
+        faceDiv.style.width = '240px';
+        faceDiv.style.height = '320px';
+        faceDiv.style.left = 'calc(50% - 120px)';
+        faceDiv.style.top = 'calc(50% - 160px)';
+        faceDiv.style.gridTemplateColumns = 'repeat(2, 1fr)';
+        faceDiv.style.gridTemplateRows = 'repeat(4, 1fr)';
+        faceDiv.style.transform = `rotateY(${faceAngles[fIdx]}deg) translateZ(${sideDistance}px)`;
+
+        faceTiles.forEach(tObj => {
+          const tileEl = this.create3DTileElement(tObj);
+          tileEl.style.position = 'relative';
+          tileEl.style.left = 'auto';
+          tileEl.style.top = 'auto';
+          tileEl.style.width = '100%';
+          tileEl.style.height = '100%';
+          faceDiv.appendChild(tileEl);
+        });
+        this.dom.stage3D.appendChild(faceDiv);
+      });
+
+    } else if (this.dim3D === 'cube16' || this.dim3D === 'cube') {
+      // --- Standard 4-Face Cube (16 Tiles) ---
       const sideDistance = 140 + (this.depth3D * 0.55);
-      const faces = [[], [], [], []]; // Front (0), Right (90), Back (180), Left (270)
+      const faces = [[], [], [], []];
       tiles.forEach((t, i) => faces[i % 4].push(t));
 
       const faceAngles = [0, 90, 180, 270];
@@ -4219,11 +4421,33 @@ class ConnectionsGame {
         this.dom.stage3D.appendChild(tileEl);
       });
 
-    } else {
-      // --- Default 16 Tiles: 3D Curved Hologram Command Matrix ---
+    } else if (this.dim3D === 'sphere') {
+      // --- 3D Spherical Geodesic Cluster ---
+      const total = tiles.length;
+      const radius = 205 + (this.depth3D * 0.55);
+      const goldenRatio = (1 + Math.sqrt(5)) / 2;
+
       tiles.forEach((tileObj, i) => {
-        const r = Math.floor(i / 4);
-        const c = i % 4;
+        const phi = Math.acos(1 - (2 * (i + 0.5)) / total);
+        const theta = 2 * Math.PI * i / goldenRatio;
+        const x = Math.sin(phi) * Math.cos(theta) * radius;
+        const y = Math.cos(phi) * radius;
+        const z = Math.sin(phi) * Math.sin(theta) * radius;
+        const rotY = -(theta * 180 / Math.PI) + 90;
+        const rotX = -(phi * 180 / Math.PI - 90);
+
+        const tileEl = this.create3DTileElement(tileObj);
+        tileEl.style.transform = `translate3d(${x}px, ${y}px, ${z}px) rotateY(${rotY}deg) rotateX(${rotX}deg)`;
+        this.dom.stage3D.appendChild(tileEl);
+      });
+
+    } else {
+      // --- Default: Curved Hologram Command Matrix ---
+      const total = tiles.length;
+      const cols = 4;
+      tiles.forEach((tileObj, i) => {
+        const r = Math.floor(i / cols);
+        const c = i % cols;
         const xOffset = (c - 1.5) * 106;
         const yOffset = (r - 1.5) * 76;
         const rotY = (c - 1.5) * 8;
@@ -4414,6 +4638,43 @@ class ConnectionsGame {
       });
     }
 
+    if (this.dom.btn3DSide) {
+      this.dom.btn3DSide.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.setCameraPreset(10, 90, 0);
+      });
+    }
+
+    if (this.dom.btn3DBottom) {
+      this.dom.btn3DBottom.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.setCameraPreset(-35, -20, -20);
+      });
+    }
+
+    if (this.dom.btn3DZoomIn) {
+      this.dom.btn3DZoomIn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.rot3D.zoom = Math.min(260, this.rot3D.zoom + 50);
+        this.update3DTransform();
+      });
+    }
+
+    if (this.dom.btn3DZoomOut) {
+      this.dom.btn3DZoomOut.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.rot3D.zoom = Math.max(-200, this.rot3D.zoom - 50);
+        this.update3DTransform();
+      });
+    }
+
+    if (this.dom.btn3DFloor) {
+      this.dom.btn3DFloor.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.toggle3DFloor();
+      });
+    }
+
     // Depth slider (real-time responsiveness across all 3D dimensions)
     if (this.dom.depthSlider) {
       this.dom.depthSlider.addEventListener('input', (e) => {
@@ -4473,6 +4734,42 @@ class ConnectionsGame {
     }
     if (this.dom.btnGenerateMix) {
       this.dom.btnGenerateMix.addEventListener('click', () => this.playMixedGame());
+    }
+
+    // Difficulty Selector Bar clicks
+    document.querySelectorAll('#difficulty-bar .diff-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const diff = btn.getAttribute('data-diff');
+        this.setDifficulty(diff);
+        this.sound.playTap();
+      });
+    });
+
+    // Tile Count / Dimension Selector (2D & 3D)
+    document.querySelectorAll('.tile-size-btn[data-size]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const size = parseInt(btn.getAttribute('data-size'), 10);
+        this.setTileSize(size);
+        this.sound.playTap();
+      });
+    });
+
+    // Out of Mistakes Prompt Modal
+    if (this.dom.btnPromptContinue) {
+      this.dom.btnPromptContinue.addEventListener('click', () => {
+        this.isFreePlay = true;
+        this.closeModal(this.dom.modalGameOverPrompt);
+        this.renderMistakes();
+        this.sound.playSuccess();
+        this.showToast('Unlimited Practice Mode activated! Keep going! 💡');
+      });
+    }
+
+    if (this.dom.btnPromptReveal) {
+      this.dom.btnPromptReveal.addEventListener('click', () => {
+        this.closeModal(this.dom.modalGameOverPrompt);
+        this.revealSolutionAndEnd();
+      });
     }
 
     // Horizontal Topic Bar Filter clicks

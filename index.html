@@ -29,8 +29,7 @@
     <header class="game-header">
       <div class="header-top">
         <div class="brand-wrapper">
-          <div class="logo-badge" aria-hidden="true">AI</div>
-          <h1 class="game-title">AI Connections</h1>
+          <h1 class="game-title">Connections</h1>
         </div>
 
         <div class="header-actions">
@@ -76,6 +75,16 @@
         <button id="btn-pill-mix" class="topic-pill special-mix" data-topic="mix">🔀 Mix Topics</button>
       </nav>
 
+      <!-- Difficulty Mode Selector Bar -->
+      <div id="difficulty-bar" class="difficulty-bar" role="radiogroup" aria-label="Difficulty Level">
+        <span class="diff-bar-label">Difficulty:</span>
+        <button class="diff-btn" data-diff="all" title="Show All Difficulty Levels">All</button>
+        <button class="diff-btn" data-diff="Beginner" title="Beginner: Everyday concepts, 5 mistakes">🌱 Beginner</button>
+        <button class="diff-btn active" data-diff="Intermediate" title="Intermediate: Balanced connections, 4 mistakes">⚡ Intermediate</button>
+        <button class="diff-btn" data-diff="Expert" title="Expert: Complex cross-topic connections, 4 mistakes">🔥 Expert</button>
+        <button class="diff-btn" data-diff="Grandmaster" title="Grandmaster: Lateral thinking, subtle red herrings, 3 mistakes">👑 Grandmaster</button>
+      </div>
+
       <div class="puzzle-meta-bar">
         <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
           <span id="puzzle-title-display" class="puzzle-badge">Puzzle #1</span>
@@ -89,14 +98,25 @@
       <p class="instruction-text">Find 4 groups of 4 items with a common link. Tap solved cards for Dossiers!</p>
     </header>
 
-    <!-- Mode Switcher Tabs (2D Classic vs 3D Spatial) -->
-    <div class="mode-tabs-container" role="tablist" aria-label="Game Mode Tabs">
-      <button id="tab-mode-2d" class="mode-tab active" role="tab" aria-selected="true" data-mode="2d">
-        🎯 2D Classic
-      </button>
-      <button id="tab-mode-3d" class="mode-tab mode-tab-3d" role="tab" aria-selected="false" data-mode="3d">
-        🔮 3D Spatial (Experimental)
-      </button>
+    <!-- Mode Switcher Tabs & Tile Count Options (2D Classic vs 3D Spatial) -->
+    <div class="mode-tabs-container">
+      <div class="mode-tabs-group" role="tablist" aria-label="Game Mode Tabs">
+        <button id="tab-mode-2d" class="mode-tab active" role="tab" aria-selected="true" data-mode="2d">
+          🎯 2D Classic
+        </button>
+        <button id="tab-mode-3d" class="mode-tab mode-tab-3d" role="tab" aria-selected="false" data-mode="3d">
+          🔮 3D Spatial (Experimental)
+        </button>
+      </div>
+
+      <!-- Tile Count Selector for both 2D and 3D -->
+      <div class="tile-count-group" role="group" aria-label="Tile Count Options">
+        <span class="tile-count-label">Tiles:</span>
+        <button class="tile-size-btn active" data-size="16" title="Classic 16 Tiles (4 Groups)">16 (4×4)</button>
+        <button class="tile-size-btn" data-size="20" title="Extended 20 Tiles (5 Groups)">20 (5×4)</button>
+        <button class="tile-size-btn" data-size="24" title="Master 24 Tiles (6 Groups / 6-Face Cube)">24 (6×4)</button>
+        <button class="tile-size-btn" data-size="32" title="Grandmaster 32 Tiles (8 Groups / Dual Deck)">32 (Dual)</button>
+      </div>
     </div>
 
     <!-- Solved Categories Stack -->
@@ -115,8 +135,11 @@
             <button class="hud-btn active" data-dim="16" title="Curved 3D Hologram Matrix (16 Items)">Matrix (16)</button>
             <button class="hud-btn" data-dim="32" title="Terraced Dual-Tier Stadium (32 Items / 8 Groups)">Stadium (32)</button>
             <button class="hud-btn" data-dim="cylinder" title="3D Cylindrical Orbital Carousel">Orbit</button>
-            <button class="hud-btn" data-dim="cube" title="3D Voxel Monolith Cube">Cube</button>
+            <button class="hud-btn" data-dim="cube16" title="3D 4-Face Cube (16 Tiles)">Cube (16)</button>
+            <button class="hud-btn" data-dim="cube24" title="3D Full 6-Face Hexahedron Cube (24 Tiles / 6 Groups!)">Cube (24)</button>
+            <button class="hud-btn" data-dim="cube32" title="3D Grandmaster Cube (32 Tiles / 8 Groups!)">Cube (32)</button>
             <button class="hud-btn" data-dim="helix" title="3D DNA Double Helix Strand">🧬 Helix</button>
+            <button class="hud-btn" data-dim="sphere" title="3D Spherical Geodesic Cluster">🌐 Sphere</button>
           </div>
         </div>
 
@@ -126,8 +149,19 @@
             <button id="btn-3d-iso" class="hud-btn" title="Isometric Perspective">🎲 Iso</button>
             <button id="btn-3d-front" class="hud-btn" title="Frontal Tilt">📐 Front</button>
             <button id="btn-3d-top" class="hud-btn" title="Top-Down View">👁️ Top</button>
+            <button id="btn-3d-side" class="hud-btn" title="Side Profile Perspective (90°)">📐 Side</button>
+            <button id="btn-3d-bottom" class="hud-btn" title="Underneath Low-Angle View">🔭 Low</button>
+            <button id="btn-3d-zoomin" class="hud-btn" title="Zoom In">🔍 +</button>
+            <button id="btn-3d-zoomout" class="hud-btn" title="Zoom Out">🔍 −</button>
             <button id="btn-3d-spin" class="hud-btn" title="Toggle Gentle Auto-Spin">🔄 Spin</button>
             <button id="btn-3d-reset" class="hud-btn" title="Reset Camera Angle">⟲ Reset</button>
+          </div>
+        </div>
+
+        <div class="hud-group">
+          <span class="hud-label">Environment:</span>
+          <div class="hud-btn-group">
+            <button id="btn-3d-floor" class="hud-btn active" title="Toggle 3D Floor Pedestal Grid & Hologram Ring">🌐 Floor</button>
           </div>
         </div>
 
@@ -181,9 +215,27 @@
     <!-- Footer / Attribution -->
     <footer class="game-footer">
       <span>Curated & Developed by <a href="https://aviperera.com" target="_blank" rel="noopener">Avi Perera</a></span>
-      <span>AI Governance • International Law • Autonomous Systems (LAWS)</span>
     </footer>
   </main>
+
+  <!-- MODAL: Out of Mistakes / Continue Guessing Prompt -->
+  <div id="modal-gameover-prompt" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="gameover-prompt-title">
+    <div class="modal-content" style="max-width: 440px; text-align: center;">
+      <div style="font-size: 2.8rem; margin-bottom: 8px;">💔</div>
+      <h2 id="gameover-prompt-title" class="modal-title" style="justify-content: center; font-size: 1.3rem;">Out of Mistakes!</h2>
+      <p style="font-size: 0.9rem; color: var(--text-secondary); margin: 12px 0 20px;">
+        You've used all your allotted mistakes for this puzzle. Would you like to keep guessing in <strong>Practice Mode (Unlimited Attempts)</strong> to solve the rest yourself, or reveal the solutions now?
+      </p>
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <button id="btn-prompt-continue" class="game-btn primary" style="width: 100%; justify-content: center; padding: 12px;">
+          🔓 Keep Guessing (Practice Mode)
+        </button>
+        <button id="btn-prompt-reveal" class="game-btn subtle" style="width: 100%; justify-content: center; padding: 10px;">
+          📊 Reveal Solution &amp; View Results
+        </button>
+      </div>
+    </div>
+  </div>
 
   <!-- MODAL: Intelligence Dossier (Deep Explainer on Solved Categories) -->
   <div id="modal-dossier" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="dossier-title">
